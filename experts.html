@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Finance Shelf Hub - Expert Consultations</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .streak-counter {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            border-radius: 20px;
+            padding: 10px 20px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .xp-counter {
+            background: linear-gradient(45deg, #4158D0, #C850C0);
+            border-radius: 20px;
+            padding: 10px 20px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .expert-card {
+            transition: all 0.3s ease;
+        }
+        
+        .expert-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-chip {
+            transition: all 0.2s ease;
+        }
+        
+        .filter-chip:hover, .filter-chip.active {
+            background-color: #2563EB;
+            color: white;
+        }
+
+        .session-option {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .session-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            border-color: #3B82F6;
+        }
+        
+        .session-option.selected {
+            border-color: #3B82F6;
+            background-color: #EFF6FF;
+        }
+
+        .rating-stars .fas {
+            color: #FCD34D;
+        }
+        
+        .rating-stars .far {
+            color: #D1D5DB;
+        }
+
+        .availability-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        
+        .availability-dot.available {
+            background-color: #10B981;
+        }
+        
+        .availability-dot.busy {
+            background-color: #F59E0B;
+        }
+        
+        .availability-dot.unavailable {
+            background-color: #EF4444;
+        }
+
+        .tab-button.active {
+            color: #2563EB;
+            border-color: #2563EB;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+        
+        .expertise-badge {
+            background-color: #EFF6FF;
+            color: #2563EB;
+            transition: all 0.2s ease;
+        }
+        
+        .expertise-badge:hover {
+            background-color: #DBEAFE;
+        }
+        
+        .calendar-day {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .calendar-day:hover {
+            background-color: #DBEAFE;
+        }
+        
+        .calendar-day.available {
+            border: 1px solid #D1D5DB;
+        }
+        
+        .calendar-day.selected {
+            background-color: #3B82F6;
+            color: white;
+            border: none;
+        }
+        
+        .calendar-day.unavailable {
+            color: #D1D5DB;
+            text-decoration: line-through;
+            cursor: not-allowed;
+        }
+        
+        .time-slot {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .time-slot:hover {
+            background-color: #DBEAFE;
+        }
+        
+        .time-slot.selected {
+            background-color: #3B82F6;
+            color: white;
+        }
+        
+        .time-slot.unavailable {
+            color: #D1D5DB;
+            text-decoration: line-through;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="text-2xl font-bold text-blue-600">
+                     <img src="logo.png">
+                </div>
+            </div>
+            <nav class="hidden md:flex space-x-5 text-gray-700">
+                <a href="dashboard.html" class="hover:text-blue-600 font-medium ">Home</a>
+                <a href="dailyfeed.html" class="hover:text-blue-600 font-medium ">Articles</a>
+                <a href="cases.html" class="hover:text-blue-600 font-medium">Case Breakdowns</a>
+                <a href="myths.html" class="hover:text-blue-600 font-medium">Myths &amp; Facts</a>
+                <a href="community.html" class="hover:text-blue-600 font-medium">Community</a>
+                <a href="dictionary.html" class="hover:text-blue-600 font-medium ">Dictionary</a>
+                <a href="experts.html" class="hover:text-blue-600 font-medium text-blue-600">Experts</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <button class="text-gray-600 hover:text-gray-800">
+                        <i class="far fa-bell text-xl"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">3</span>
+                    </button>
+                </div>
+                <span class="streak-counter text-sm"><i class="fas fa-fire mr-1"></i> 7 Day Streak</span>
+                <span class="xp-counter text-sm"><i class="fas fa-bolt mr-1"></i> 450 XP</span>
+                
+                <!-- Improved Profile Dropdown -->
+                <div class="relative" id="profileDropdown">
+                    <button class="flex items-center cursor-pointer focus:outline-none" onclick="toggleProfileMenu()">
+                        <img src="https://avatar.iran.liara.run/public/77" alt="Swati" class="h-8 w-8 rounded-full border-2 border-blue-500">
+                        <span class="ml-2 hidden lg:block">Swati</span>
+                        <i class="fas fa-chevron-down ml-1 text-xs text-gray-500"></i>
+                    </button>
+                    <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 hidden z-50">
+                        <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-user-circle mr-2"></i> My Profile
+                        </a>
+                        <a href="settings.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-cog mr-2"></i> Settings
+                        </a>
+                        <a href="learning.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-graduation-cap mr-2"></i> My Learning
+                        </a>
+                        <a href="favorites.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-bookmark mr-2"></i> Saved Items
+                        </a>
+                        <a href="help.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-question-circle mr-2"></i> Help Center
+                        </a>
+                        <div class="border-t border-gray-200 my-1"></div>
+                        <a href="logout.html" class="block px-4 py-2 text-red-600 hover:bg-gray-100">
+                            <i class="fas fa-sign-out-alt mr-2"></i> Sign Out
+                        </a>
+                    </div>
+                </div>
+                
+                <button class="block md:hidden text-gray-500 hover:text-gray-700" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobileMenu" class="md:hidden hidden bg-white border-t border-gray-200 py-2">
+            <nav class="flex flex-col space-y-2 px-4">
+                <a href="dashboard.html" class="py-2 text-blue-600 font-medium hover:text-blue-600">Dashboard</a>
+                <a href="dailyfeed.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Articles</a>
+                <a href="cases.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Case Breakdowns</a>
+                <a href="myths.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Myths &amp; Facts</a>
+                <a href="community.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Community</a>
+                <a href="dictionary.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Dictionary</a>
+                <a href="experts.html" class="py-2 text-gray-700 font-medium ">Experts</a>
+            </nav>
+        </div>
+        
+        <!-- JavaScript for toggles -->
+        <script>
+            function toggleProfileMenu() {
+                const menu = document.getElementById('profileMenu');
+                menu.classList.toggle('hidden');
+            }
+            
+            function toggleMobileMenu() {
+                const menu = document.getElementById('mobileMenu');
+                menu.classList.toggle('hidden');
+            }
+            
+            // Close the dropdown when clicking outside
+            window.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('profileDropdown');
+                const menu = document.getElementById('profileMenu');
+                
+                if (!dropdown.contains(event.target) && !menu.classList.contains('hidden')) {
+                    menu.classList.add('hidden');
+                }
+            });
+        </script>
+    </header>
+   
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Financial Experts</h1>
+                <p class="text-gray-600">Book personalized consultations with verified financial professionals</p>
+            </div>
+            <div class="flex space-x-3">
+                <button class="bg-white text-gray-600 px-4 py-2 rounded-full border shadow-sm hover:bg-gray-50">
+                    <i class="fas fa-sliders-h mr-2"></i> Filter
+                </button>
+                <button class="bg-white text-gray-600 px-4 py-2 rounded-full border shadow-sm hover:bg-gray-50">
+                    <i class="fas fa-search mr-2"></i> Search
+                </button>
+            </div>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="mb-8 overflow-x-auto">
+            <div class="flex space-x-2 py-2">
+                <button class="filter-chip active whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                    All Experts
+                </button>
+                <button class="filter-chip whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                    Investment Advisors
+                </button>
+                <button class="filter-chip whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                    Tax Consultants
+                </button>
+                <button class="filter-chip whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                    Retirement Planners
+                </button>
+                <button class="filter-chip whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                    Insurance Specialists
+                </button>
+                <button class="filter-chip whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                    Stock Market Experts
+                </button>
+                <button class="filter-chip whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                    Real Estate Advisors
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Expert Card 1 -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden expert-card">
+                <div class="p-6">
+                    <div class="flex items-start mb-4">
+                        <img src="https://avatar.iran.liara.run/public/45" alt="Expert Photo" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <div class="flex items-center">
+                                <h2 class="text-xl font-bold text-gray-800">Yuva B, CA</h2>
+                                <span class="ml-2 flex items-center text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
+                                    <span class="availability-dot available"></span> Available Today
+                                </span>
+                            </div>
+                            <p class="text-gray-600">Tax & Investment Planning Expert</p>
+                            <div class="mt-1 rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="text-gray-600 text-sm ml-1">4.5 (128 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Tax Planning</span>
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Income Tax Filing</span>
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Investment Advisory</span>
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Retirement Planning</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">
+                            Chartered Accountant with 15+ years of experience in tax planning and investment advisory. Specializes in personalized tax optimization strategies for individuals and small businesses.
+                        </p>
+                    </div>
+
+                    <div class="border-t border-gray-100 pt-4">
+                        <div class="mb-2">
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">Consultation Options</h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="session-option border rounded-lg p-3 text-center cursor-pointer">
+                                    <p class="text-sm font-medium text-gray-800">30 Min Basic</p>
+                                    <p class="text-lg font-bold text-blue-600">₹999</p>
+                                </div>
+                                <div class="session-option border rounded-lg p-3 text-center cursor-pointer">
+                                    <p class="text-sm font-medium text-gray-800">60 Min Deep Dive</p>
+                                    <p class="text-lg font-bold text-blue-600">₹1,799</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button onclick="openBookingModal('Yuva B', 'Tax & Investment Planning Expert')" class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                                Book Consultation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expert Card 2 -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden expert-card">
+                <div class="p-6">
+                    <div class="flex items-start mb-4">
+                        <img src="https://avatar.iran.liara.run/public/97" alt="Expert Photo" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <div class="flex items-center">
+                                <h2 class="text-xl font-bold text-gray-800">Priya Mehta, CFP</h2>
+                                <span class="ml-2 flex items-center text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full">
+                                    <span class="availability-dot busy"></span> Busy Today
+                                </span>
+                            </div>
+                            <p class="text-gray-600">Certified Financial Planner</p>
+                            <div class="mt-1 rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="text-gray-600 text-sm ml-1">5.0 (93 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Financial Planning</span>
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Retirement Planning</span>
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Mutual Funds</span>
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Goal-based Investing</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">
+                            SEBI-registered investment advisor and Certified Financial Planner with expertise in creating holistic financial roadmaps. Focused on goal-based financial planning for families and young professionals.
+                        </p>
+                    </div>
+
+                    <div class="border-t border-gray-100 pt-4">
+                        <div class="mb-2">
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">Consultation Options</h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="session-option border rounded-lg p-3 text-center cursor-pointer">
+                                    <p class="text-sm font-medium text-gray-800">45 Min Strategy</p>
+                                    <p class="text-lg font-bold text-blue-600">₹1,499</p>
+                                </div>
+                                <div class="session-option border rounded-lg p-3 text-center cursor-pointer">
+                                    <p class="text-sm font-medium text-gray-800">Financial Roadmap</p>
+                                    <p class="text-lg font-bold text-blue-600">₹4,999</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button onclick="openBookingModal('Priya Mehta', 'Certified Financial Planner')" class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                                Book Consultation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expert Card 3 -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden expert-card">
+                <div class="p-6">
+                    <div class="flex items-start mb-4">
+                        <img src="https://avatar.iran.liara.run/public/84" alt="Expert Photo" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <div class="flex items-center">
+                                <h2 class="text-xl font-bold text-gray-800">Jaishnavi Malhotra</h2>
+                                <span class="ml-2 flex items-center text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
+                                    <span class="availability-dot available"></span> Available Today
+                                </span>
+                            </div>
+                            <p class="text-gray-600">Stock Market & Investment Expert</p>
+                            <div class="mt-1 rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span class="text-gray-600 text-sm ml-1">4.0 (76 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Stock Market</span>
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Portfolio Analysis</span>
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Mutual Funds</span>
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Equity Research</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">
+                            Former investment banker with over 12 years of experience in equity research and portfolio management. Expert in analyzing stock portfolios and providing actionable insights for growth.
+                        </p>
+                    </div>
+
+                    <div class="border-t border-gray-100 pt-4">
+                        <div class="mb-2">
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">Consultation Options</h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="session-option border rounded-lg p-3 text-center cursor-pointer">
+                                    <p class="text-sm font-medium text-gray-800">Portfolio Review</p>
+                                    <p class="text-lg font-bold text-blue-600">₹1,999</p>
+                                </div>
+                                <div class="session-option border rounded-lg p-3 text-center cursor-pointer">
+                                    <p class="text-sm font-medium text-gray-800">Investment Strategy</p>
+                                    <p class="text-lg font-bold text-blue-600">₹3,499</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button onclick="openBookingModal('Jaishnavi Malhotra', 'Stock Market & Investment Expert')" class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                                Book Consultation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expert Card 4 -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden expert-card">
+                <div class="p-6">
+                    <div class="flex items-start mb-4">
+                        <img src="https://avatar.iran.liara.run/public/11" alt="Expert Photo" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <div class="flex items-center">
+                                <h2 class="text-xl font-bold text-gray-800">Arun Kapoor, CHFC</h2>
+                                <span class="ml-2 flex items-center text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
+                                    <span class="availability-dot available"></span> Available Today
+                                </span>
+                            </div>
+                            <p class="text-gray-600">Insurance & Estate Planning Specialist</p>
+                            <div class="mt-1 rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="text-gray-600 text-sm ml-1">4.7 (62 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Life Insurance</span>
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Health Insurance</span>
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Estate Planning</span>
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Will & Succession</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">
+                            Chartered Financial Consultant specializing in insurance planning and estate strategies. Helps clients optimize insurance coverage and create solid succession plans.
+                        </p>
+                    </div>
+
+                    <div class="border-t border-gray-100 pt-4">
+                        <div class="mb-2">
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">Consultation Options</h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="session-option border rounded-lg p-3 text-center cursor-pointer">
+                                    <p class="text-sm font-medium text-gray-800">Insurance Review</p>
+                                    <p class="text-lg font-bold text-blue-600">₹1,299</p>
+                                </div>
+                                <div class="session-option border rounded-lg p-3 text-center cursor-pointer">
+                                    <p class="text-sm font-medium text-gray-800">Estate Planning</p>
+                                    <p class="text-lg font-bold text-blue-600">₹3,999</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button onclick="openBookingModal('Arun Kapoor', 'Insurance & Estate Planning Specialist')" class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                                Book Consultation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expert Card 5 -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden expert-card">
+                <div class="p-6">
+                    <div class="flex items-start mb-4">
+                        <img src="https://avatar.iran.liara.run/public/71" alt="Expert Photo" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <div class="flex items-center">
+                                <h2 class="text-xl font-bold text-gray-800">Sonia Agarwal, MBA</h2>
+                                <span class="ml-2 flex items-center text-xs bg-red-100 text-red-800 px-2 py-0.5 rounded-full">
+                                    <span class="availability-dot unavailable"></span> Next Available in 3 Days
+                                </span>
+                            </div>
+                            <p class="text-gray-600">Personal Finance Coach</p>
+                            <div class="mt-1 rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="text-gray-600 text-sm ml-1">5.0 (117 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Budgeting</span>
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Debt Management</span>
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Savings Strategy</span>
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Financial Behavior</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">
+                            Personal finance coach and behavioral finance expert who helps individuals create sustainable money habits. Specializes in debt reduction and smart saving strategies.
+                        </p>
+                    </div>
+
+                    <div class="border-t border-gray-100 pt-4">
+                        <div class="mb-2">
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">Consultation Options</h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="session-option border rounded-lg p-3 text-center cursor-pointer">
+                                    <p class="text-sm font-medium text-gray-800">Budget Planning</p>
+                                    <p class="text-lg font-bold text-blue-600">₹899</p>
+                                </div>
+                                <div class="session-option border rounded-lg p-3 text-center cursor-pointer">
+                                    <p class="text-sm font-medium text-gray-800">6-Week Coaching</p>
+                                    <p class="text-lg font-bold text-blue-600">₹5,999</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button onclick="openBookingModal('Sonia Agarwal', 'Personal Finance Coach')" class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                                Book Consultation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expert Card 6 -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden expert-card">
+                <div class="p-6">
+                    <div class="flex items-start mb-4">
+                        <img src="https://avatar.iran.liara.run/public/12" alt="Expert Photo" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <div class="flex items-center">
+                                <h2 class="text-xl font-bold text-gray-800">Dr. Vikram Singh, PhD</h2>
+                                <span class="ml-2 flex items-center text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
+                                    <span class="availability-dot available"></span> Available Today
+                                </span>
+                            </div>
+                            <p class="text-gray-600">Real Estate Investment Advisor</p>
+                            <div class="mt-1 rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span class="text-gray-600 text-sm ml-1">4.1 (53 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Real Estate</span>
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Property Investment</span>
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">REIT Analysis</span>
+                            <span class="expertise-badge text-xs px-2 py-1 rounded-full">Market Trends</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">
+                            Real estate investment specialist with over 15 years of experience in property markets. Helps clients make informed decisions about residential and commercial property investments across India.
+                        </p>
+                    </div>
+                    
+                    <div class="border-t border-gray-100 pt-4">
+                        <div class="mb-2">
+                            <h3 class="text-sm font-medium text-gray-700 mb-2">Consultation Options</h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="session-option border rounded-lg p-3 text-center cursor-pointer">
+                                    <p class="text-sm font-medium text-gray-800">Investment Analysis</p>
+                                    <p class="text-lg font-bold text-blue-600">₹1,499</p>
+                                </div>
+                                <div class="session-option border rounded-lg p-3 text-center cursor-pointer">
+                                    <p class="text-sm font-medium text-gray-800">Portfolio Review</p>
+                                    <p class="text-lg font-bold text-blue-600">₹3,299</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button onclick="openBookingModal('Dr. Vikram Singh', 'Real Estate Investment Advisor')" class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                                Book Consultation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+ <!-- Footer for Logged-In Users -->
+ <footer class="bg-gray-800 text-gray-300 pt-8 pb-6 mt-8">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <!-- Quick Links -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-tachometer-alt mr-2 text-gray-400"></i> My Dashboard</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-graduation-cap mr-2 text-gray-400"></i> My Learning Path</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-trophy mr-2 text-gray-400"></i> My Achievements</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-bookmark mr-2 text-gray-400"></i> Saved Content</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-history mr-2 text-gray-400"></i> Learning History</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-cog mr-2 text-gray-400"></i> Account Settings</a></li>
+                </ul>
+            </div>
+            
+            <!-- Platform Features -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">Explore Features</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white transition-colors">Daily Feed</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Case Breakdowns</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Myths & Facts</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Community Q&A</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Financial Dictionary</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Expert Consultations</a></li>
+                </ul>
+            </div>
+            
+            <!-- Learning Resources -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">Learning Resources</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white transition-colors">Financial Calculators</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Market Data</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Webinars & Events</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Knowledge Base</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Download Mobile App</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                </ul>
+            </div>
+            
+            <!-- User Support -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">User Support</h3>
+                <p class="text-sm mb-4">Need help with your financial learning journey? Our support team is here for you.</p>
+                <div class="flex items-center mb-4">
+                    <a href="#" class="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-lg transition-colors flex items-center">
+                        <i class="far fa-comment-dots mr-2"></i> Contact Support
+                    </a>
+                </div>
+                <p class="text-sm mb-2">Working hours: 9AM-7PM, Mon-Sat</p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- User Status Info & Copyright -->
+        <div class="border-t border-gray-700 pt-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center text-sm">
+                        <span><i class="fas fa-circle text-green-500 mr-2 text-xs"></i> Logged in as: Swati</span>
+                        <span class="mx-3">•</span>
+                        <span>Level 6 Financial Explorer</span>
+                        <span class="mx-3">•</span>
+                        <span>Last login: Today at 10:23 AM</span>
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row items-center">
+                    <a href="#" class="text-sm hover:text-white transition-colors mr-4">Privacy Policy</a>
+                    <a href="#" class="text-sm hover:text-white transition-colors mr-4">Terms of Service</a>
+                    <a href="#" class="text-sm hover:text-white transition-colors">Logout</a>
+                </div>
+            </div>
+            <div class="text-center mt-6">
+                <p class="text-sm">© 2025 The Finance Shelf Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer></html>

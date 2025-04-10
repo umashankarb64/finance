@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Finance Shelf Hub - Submit a Myth</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted #2563EB;
+            cursor: pointer;
+            color: #2563EB;
+            font-weight: 500;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 300px;
+            background-color: #fff;
+            color: #1F2937;
+            text-align: left;
+            border-radius: 6px;
+            padding: 15px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -150px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid #E5E7EB;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .streak-counter {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            border-radius: 20px;
+            padding: 10px 20px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .xp-counter {
+            background: linear-gradient(45deg, #4158D0, #C850C0);
+            border-radius: 20px;
+            padding: 10px 20px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .badge-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            background-color: #EFF6FF;
+            color: #3B82F6;
+            font-size: 24px;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .progress-step {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .progress-step::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 30px;
+            width: calc(100% - 60px);
+            height: 2px;
+            background-color: #E5E7EB;
+            z-index: -1;
+        }
+        
+        .progress-step:last-child::before {
+            display: none;
+        }
+        
+        .progress-step-active .progress-circle {
+            background-color: #3B82F6;
+            color: white;
+        }
+        
+        .progress-step-completed .progress-circle {
+            background-color: #10B981;
+            color: white;
+        }
+
+        .source-chip {
+            transition: all 0.2s ease;
+        }
+        
+        .source-chip:hover {
+            transform: translateX(2px);
+        }
+
+        .tag-chip {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .tag-chip:hover, .tag-chip.selected {
+            background-color: #2563EB;
+            color: white;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .example-card {
+            transition: all 0.3s ease;
+        }
+        
+        .example-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-container {
+            display: none;
+        }
+        
+        .step-container.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="text-2xl font-bold text-blue-600">
+                     <img src="logo.png">
+                </div>
+            </div>
+            <nav class="hidden md:flex space-x-5 text-gray-700">
+                <a href="dashboard.html" class="hover:text-blue-600 font-medium ">Home</a>
+                <a href="dailyfeed.html" class="hover:text-blue-600 font-medium">Articles</a>
+                <a href="cases.html" class="hover:text-blue-600 font-medium">Case Breakdowns</a>
+                <a href="myths.html" class="hover:text-blue-600 font-medium text-blue-600">Myths &amp; Facts</a>
+                <a href="community.html" class="hover:text-blue-600 font-medium">Community</a>
+                <a href="dictionary.html" class="hover:text-blue-600 font-medium">Dictionary</a>
+                <a href="experts.html" class="hover:text-blue-600 font-medium">Experts</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <button class="text-gray-600 hover:text-gray-800">
+                        <i class="far fa-bell text-xl"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">3</span>
+                    </button>
+                </div>
+                <span class="streak-counter text-sm"><i class="fas fa-fire mr-1"></i> 7 Day Streak</span>
+                <span class="xp-counter text-sm"><i class="fas fa-bolt mr-1"></i> 450 XP</span>
+                
+                <!-- Improved Profile Dropdown -->
+                <div class="relative" id="profileDropdown">
+                    <button class="flex items-center cursor-pointer focus:outline-none" onclick="toggleProfileMenu()">
+                        <img src="https://avatar.iran.liara.run/public/77" alt="Swati" class="h-8 w-8 rounded-full border-2 border-blue-500">
+                        <span class="ml-2 hidden lg:block">Swati</span>
+                        <i class="fas fa-chevron-down ml-1 text-xs text-gray-500"></i>
+                    </button>
+                    <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 hidden z-50">
+                        <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-user-circle mr-2"></i> My Profile
+                        </a>
+                        <a href="settings.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-cog mr-2"></i> Settings
+                        </a>
+                        <a href="learning.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-graduation-cap mr-2"></i> My Learning
+                        </a>
+                        <a href="favorites.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-bookmark mr-2"></i> Saved Items
+                        </a>
+                        <a href="help.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-question-circle mr-2"></i> Help Center
+                        </a>
+                        <div class="border-t border-gray-200 my-1"></div>
+                        <a href="logout.html" class="block px-4 py-2 text-red-600 hover:bg-gray-100">
+                            <i class="fas fa-sign-out-alt mr-2"></i> Sign Out
+                        </a>
+                    </div>
+                </div>
+                
+                <button class="block md:hidden text-gray-500 hover:text-gray-700" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobileMenu" class="md:hidden hidden bg-white border-t border-gray-200 py-2">
+            <nav class="flex flex-col space-y-2 px-4">
+                <a href="dashboard.html" class="py-2 text-blue-600 font-medium hover:text-blue-600">Home</a>
+                <a href="dailyfeed.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Daily Feed</a>
+                <a href="cases.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Case Breakdowns</a>
+                <a href="myths.html" class="py-2 text-gray-700 font-medium ">Myths &amp; Facts</a>
+                <a href="community.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Community</a>
+                <a href="dictionary.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Dictionary</a>
+                <a href="experts.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Experts</a>
+            </nav>
+        </div>
+        
+        <!-- JavaScript for toggles -->
+        <script>
+            function toggleProfileMenu() {
+                const menu = document.getElementById('profileMenu');
+                menu.classList.toggle('hidden');
+            }
+            
+            function toggleMobileMenu() {
+                const menu = document.getElementById('mobileMenu');
+                menu.classList.toggle('hidden');
+            }
+            
+            // Close the dropdown when clicking outside
+            window.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('profileDropdown');
+                const menu = document.getElementById('profileMenu');
+                
+                if (!dropdown.contains(event.target) && !menu.classList.contains('hidden')) {
+                    menu.classList.add('hidden');
+                }
+            });
+        </script>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="flex flex-col md:flex-row justify-between items-start mb-8">
+            <div class="mb-4 md:mb-0">
+                <div class="flex items-center mb-2">
+                    <a href="#" class="text-blue-600 hover:underline mr-2"><i class="fas fa-arrow-left"></i> Back to Myths & Facts</a>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800">Submit a Financial Myth</h1>
+                <p class="text-gray-600">Help us debunk financial misinformation by submitting claims you've heard</p>
+            </div>
+            <div class="bg-blue-50 rounded-lg p-4 max-w-lg">
+                <div class="flex">
+                    <div class="flex-shrink-0 mr-3">
+                        <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                            <i class="fas fa-lightbulb text-blue-600"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-blue-800 mb-1">Why submit a myth?</h3>
+                        <p class="text-xs text-blue-700">
+                            By submitting financial claims you've heard but are unsure about, you're helping us build a more financially literate community. Our experts will research and provide evidence-based responses.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Stepper -->
+        <div class="mb-8">
+            <div class="flex flex-col md:flex-row md:space-x-4">
+                <div class="progress-step progress-step-active flex-1 flex flex-col items-center mb-4 md:mb-0">
+                    <div class="progress-circle w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center mb-2">
+                        <span>1</span>
+                    </div>
+                    <span class="text-sm font-medium text-gray-800">Submit the Claim</span>
+                </div>
+                <div class="progress-step flex-1 flex flex-col items-center mb-4 md:mb-0">
+                    <div class="progress-circle w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center mb-2">
+                        <span>2</span>
+                    </div>
+                    <span class="text-sm font-medium text-gray-600">Review & Enhance</span>
+                </div>
+                <div class="progress-step flex-1 flex flex-col items-center">
+                    <div class="progress-circle w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center mb-2">
+                        <span>3</span>
+                    </div>
+                    <span class="text-sm font-medium text-gray-600">Confirmation</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Content -->
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="p-6">
+                <!-- Step 1: Submit Claim -->
+                <div id="step1" class="step-container active">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Step 1: Submit the Financial Claim or Myth</h2>
+                    
+                    <!-- Form Fields -->
+                    <div class="space-y-6">
+                        <div>
+                            <label for="claim-title" class="block text-sm font-medium text-gray-700 mb-1">What's the financial claim or myth you've heard?</label>
+                            <input type="text" id="claim-title" class="form-input w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" placeholder="E.g., 'Gold always beats inflation' or 'Day trading is the fastest way to get rich'">
+                        </div>
+                        
+                        <div>
+                            <label for="claim-description" class="block text-sm font-medium text-gray-700 mb-1">Describe the claim in more detail (optional)</label>
+                            <textarea id="claim-description" rows="4" class="form-textarea w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" placeholder="Provide additional context, like where you heard it, how it was presented, etc."></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Where did you encounter this claim? (Select all that apply)</label>
+                            <div class="flex flex-wrap gap-2">
+                                <label class="tag-chip inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                                    <input type="checkbox" class="hidden">
+                                    <span>Social Media</span>
+                                </label>
+                                <label class="tag-chip inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                                    <input type="checkbox" class="hidden">
+                                    <span>News Article</span>
+                                </label>
+                                <label class="tag-chip inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                                    <input type="checkbox" class="hidden">
+                                    <span>YouTube/Video</span>
+                                </label>
+                                <label class="tag-chip inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                                    <input type="checkbox" class="hidden">
+                                    <span>Friend/Family</span>
+                                </label>
+                                <label class="tag-chip inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                                    <input type="checkbox" class="hidden">
+                                    <span>Financial Advisor</span>
+                                </label>
+                                <label class="tag-chip inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                                    <input type="checkbox" class="hidden">
+                                    <span>WhatsApp/Telegram</span>
+                                </label>
+                                <label class="tag-chip inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                                    <input type="checkbox" class="hidden">
+                                    <span>Other</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">What financial topic does this relate to?</label>
+                            <div class="flex flex-wrap gap-2">
+                                <label class="tag-chip inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                                    <input type="checkbox" class="hidden">
+                                    <span>Investing</span>
+                                </label>
+                                <label class="tag-chip inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                                    <input type="checkbox" class="hidden">
+                                    <span>Stock Market</span>
+                                </label>
+                                <label class="tag-chip inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                                    <input type="checkbox" class="hidden">
+                                    <span>Mutual Funds</span>
+                                </label>
+                                <label class="tag-chip inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                                    <input type="checkbox" class="hidden">
+                                    <span>Real Estate</span>
+                                </label>
+                                <label class="tag-chip inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                                    <input type="checkbox" class="hidden">
+                                    <span>Taxation</span>
+                                </label>
+                                <label class="tag-chip inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                                    <input type="checkbox" class="hidden">
+                                    <span>Banking</span>
+                                </label>
+                                <label class="tag-chip inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                                    <input type="checkbox" class="hidden">
+                                    <span>Insurance</span>
+                                </label>
+                                <label class="tag-chip inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                                    <input type="checkbox" class="hidden">
+                                    <span>Cryptocurrency</span>
+                                </label>
+                                <label class="tag-chip inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                                    <input type="checkbox" class="hidden">
+                                    <span>Retirement</span>
+                                </label>
+                                <label class="tag-chip inline-flex items-center px-3 py-1.5 bg-gray-100 text-gray-800 rounded-full text-sm">
+                                    <input type="checkbox" class="hidden">
+                                    <span>Other</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Add any source links (optional)</label>
+                            <div class="space-y-2">
+                                <div class="flex">
+                                    <input type="text" class="form-input flex-grow rounded-l-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" placeholder="Paste URL of source">
+                                    <button class="bg-blue-600 text-white px-4 py-2 rounded-r-lg hover:bg-blue-700 transition-colors">Add</button>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mt-2">
+                                    <div class="source-chip flex items-center bg-gray-100 text-gray-700 text-xs px-3 py-2 rounded-full">
+                                        <span class="mr-2">example.com/article</span>
+                                        <button class="text-gray-500 hover:text-red-600">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="mt-8 flex justify-end">
+                        <button id="step1NextBtn" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">Continue <i class="fas fa-arrow-right ml-2"></i></button>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Review & Enhance -->
+                <div id="step2" class="step-container">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Step 2: Review & Enhance Your Submission</h2>
+                    
+                    <!-- Review Card -->
+                    <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                        <h3 class="text-base font-medium text-gray-700 mb-3">Your Submission</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <p class="text-sm text-gray-500">Claim/Myth:</p>
+                                <p class="text-base font-medium text-gray-800">"Gold always beats inflation as an investment"</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Description:</p>
+                                <p class="text-base text-gray-800">I've heard from several people that gold is always the best hedge against inflation, and that its value will always rise to match or exceed the inflation rate. Is this always true?</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Source:</p>
+                                <p class="text-base text-gray-800">Social Media, Friend/Family</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Topics:</p>
+                                <div class="flex flex-wrap gap-1 mt-1">
+                                    <span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">Investing</span>
+                                    <span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded">Inflation</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Questions -->
+                    <div class="space-y-6">
+                        <div>
+                            <label for="why-interested" class="block text-sm font-medium text-gray-700 mb-1">Why are you interested in this claim? (optional)</label>
+                            <select id="why-interested" class="form-select w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                                <option value="">Select a reason...</option>
+                                <option value="curious">Just curious about the facts</option>
+                                <option value="planning">Planning to make a financial decision based on this</option>
+                                <option value="debate">Having a debate with someone</option>
+                                <option value="concerned">Concerned about misinformation spreading</option>
+                                <option value="other">Other reason</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="evidence-already" class="block text-sm font-medium text-gray-700 mb-1">Do you know of any evidence that supports or contradicts this claim? (optional)</label>
+                            <textarea id="evidence-already" rows="3" class="form-textarea w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50" placeholder="Share any information you already have..."></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Would you like to be notified when we publish the fact check?</label>
+                            <div class="flex items-center space-x-4">
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="notification" value="yes" class="form-radio text-blue-600">
+                                    <span class="ml-2">Yes, notify me</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="notification" value="no" class="form-radio text-blue-600" checked>
+                                    <span class="ml-2">No, thanks</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="mt-8 flex justify-between">
+                        <button id="step2BackBtn" class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg font-medium hover:bg-gray-300 transition-colors">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button id="step2NextBtn" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                            Submit <i class="fas fa-check ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Confirmation -->
+                <div id="step3" class="step-container">
+                    <div class="text-center py-8">
+                        <div class="inline-block mx-auto mb-6">
+                            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center text-green-600 text-3xl mx-auto">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </div>
+                        
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Thank You for Your Submission!</h2>
+                        <p class="text-gray-600 mb-8 max-w-lg mx-auto">
+                            Your financial myth has been submitted successfully. Our team will review it and may include it in our Myths & Facts section soon.
+                        </p>
+                        
+                        <div class="mb-8">
+                            <h3 class="text-lg font-medium text-gray-700 mb-4">What happens next?</h3>
+                            <div class="max-w-lg mx-auto text-left bg-blue-50 rounded-lg p-4">
+                                <ol class="space-y-3 text-sm text-blue-900">
+                                    <li class="flex">
+                                        <span class="flex-shrink-0 flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full mr-2 text-blue-700 text-xs font-medium">1</span>
+                                        <span>Our financial experts will review your submission</span>
+                                    </li>
+                                    <li class="flex">
+                                        <span class="flex-shrink-0 flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full mr-2 text-blue-700 text-xs font-medium">2</span>
+                                        <span>We'll research the claim and gather evidence from reliable sources</span>
+                                    </li>
+                                    <li class="flex">
+                                        <span class="flex-shrink-0 flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full mr-2 text-blue-700 text-xs font-medium">3</span>
+                                        <span>If selected, we'll publish a fact check in our Myths & Facts section</span>
+                                    </li>
+                                    <li class="flex">
+                                        <span class="flex-shrink-0 flex items-center justify-center w-6 h-6 bg-blue-200 rounded-full mr-2 text-blue-700 text-xs font-medium">4</span>
+                                        <span>You'll earn 15 XP when your submission is published!</span>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="flex flex-col md:flex-row justify-center gap-4">
+                            <a href="#" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                                Explore Myths & Facts <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                            <a href="#" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-300 transition-colors">
+                                Submit Another Myth
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Examples Section -->
+        <div class="mt-10">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Examples of Myths We've Debunked</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Example Card 1 -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden example-card">
+                    <div class="p-4">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded-full mr-2">MYTH</span>
+                            <h3 class="text-base font-medium text-gray-800">"Tax saving is more important than returns"</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">
+                            Many investors focus exclusively on tax benefits when choosing investments, sometimes at the expense of overall returns and suitability for their goals.
+                        </p>
+                        <a href="#" class="text-blue-600 text-sm font-medium hover:underline">Read the fact check <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Example Card 2 -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden example-card">
+                    <div class="p-4">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded-full mr-2">MYTH</span>
+                            <h3 class="text-base font-medium text-gray-800">"ULIPs are bad investment products"</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">
+                            Unit Linked Insurance Plans (ULIPs) are often portrayed as universally poor choices, but their suitability depends on individual financial goals and circumstances.
+                        </p>
+                        <a href="#" class="text-blue-600 text-sm font-medium hover:underline">Read the fact check <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Example Card 3 -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden example-card">
+                    <div class="p-4">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded-full mr-2">MYTH</span>
+                            <h3 class="text-base font-medium text-gray-800">"Buying is always better than renting"</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">
+                            The decision to buy vs. rent a home depends on multiple factors including location, time horizon, financial situation, and personal lifestyle preferences. Neither option is universally superior.
+                        </p>
+                        <a href="#" class="text-blue-600 text-sm font-medium hover:underline">Read the fact check <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+<!-- Footer for Logged-In Users -->
+<footer class="bg-gray-800 text-gray-300 pt-8 pb-6 mt-8">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <!-- Quick Links -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-tachometer-alt mr-2 text-gray-400"></i> My Dashboard</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-graduation-cap mr-2 text-gray-400"></i> My Learning Path</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-trophy mr-2 text-gray-400"></i> My Achievements</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-bookmark mr-2 text-gray-400"></i> Saved Content</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-history mr-2 text-gray-400"></i> Learning History</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-cog mr-2 text-gray-400"></i> Account Settings</a></li>
+                </ul>
+            </div>
+            
+            <!-- Platform Features -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">Explore Features</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white transition-colors">Daily Feed</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Case Breakdowns</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Myths & Facts</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Community Q&A</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Financial Dictionary</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Expert Consultations</a></li>
+                </ul>
+            </div>
+            
+            <!-- Learning Resources -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">Learning Resources</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white transition-colors">Financial Calculators</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Market Data</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Webinars & Events</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Knowledge Base</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Download Mobile App</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                </ul>
+            </div>
+            
+            <!-- User Support -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">User Support</h3>
+                <p class="text-sm mb-4">Need help with your financial learning journey? Our support team is here for you.</p>
+                <div class="flex items-center mb-4">
+                    <a href="#" class="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-lg transition-colors flex items-center">
+                        <i class="far fa-comment-dots mr-2"></i> Contact Support
+                    </a>
+                </div>
+                <p class="text-sm mb-2">Working hours: 9AM-7PM, Mon-Sat</p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- User Status Info & Copyright -->
+        <div class="border-t border-gray-700 pt-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center text-sm">
+                        <span><i class="fas fa-circle text-green-500 mr-2 text-xs"></i> Logged in as: Swati</span>
+                        <span class="mx-3">•</span>
+                        <span>Level 6 Financial Explorer</span>
+                        <span class="mx-3">•</span>
+                        <span>Last login: Today at 10:23 AM</span>
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row items-center">
+                    <a href="#" class="text-sm hover:text-white transition-colors mr-4">Privacy Policy</a>
+                    <a href="#" class="text-sm hover:text-white transition-colors mr-4">Terms of Service</a>
+                    <a href="#" class="text-sm hover:text-white transition-colors">Logout</a>
+                </div>
+            </div>
+            <div class="text-center mt-6">
+                <p class="text-sm">© 2025 The Finance Shelf Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer></html>

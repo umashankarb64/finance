@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Finance Shelf Hub - Login</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #3B82F6, #10B981);
+        }
+        
+        .streak-counter {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            border-radius: 20px;
+            padding: 10px 20px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .xp-counter {
+            background: linear-gradient(45deg, #4158D0, #C850C0);
+            border-radius: 20px;
+            padding: 10px 20px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #3B82F6, #10B981);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .input-field {
+            transition: all 0.3s ease;
+        }
+        
+        .input-field:focus {
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        .social-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="#" class="text-2xl font-bold">
+                    <span class="text-blue-600">Fin</span><span class="text-green-500">Ease</span> <span class="text-gray-700">Hub</span>
+                </a>
+            </div>
+            <nav class="hidden md:flex space-x-8 text-gray-700">
+                <a href="#" class="hover:text-blue-600 font-medium text-blue-600">Home</a>
+                <a href="dailyfeed.html" class="hover:text-blue-600 font-medium">Articles</a>
+                <a href="cases.html" class="hover:text-blue-600 font-medium">Case Breakdowns</a>
+                <a href="myths.html" class="hover:text-blue-600 font-medium">Myths &amp; Facts</a>
+                <a href="community.html" class="hover:text-blue-600 font-medium">Community</a>
+                <a href="dictionary.html" class="hover:text-blue-600 font-medium">Dictionary</a>
+                <a href="experts.html" class="hover:text-blue-600 font-medium">Experts</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <span class="streak-counter text-sm"><i class="fas fa-fire mr-1"></i>Register</span>
+                <button class="block md:hidden text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Form Section -->
+    <section class="py-12 md:py-20">
+        <div class="container mx-auto px-4">
+            <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="hero-gradient p-6 text-center text-white">
+                    <h2 class="text-2xl font-bold mb-2">Welcome Back</h2>
+                    <p class="text-blue-50">Log in to continue your financial learning journey</p>
+                </div>
+                
+                <div class="p-6 md:p-8">
+                    <!-- Login Form -->
+                    <form>
+                        <div class="mb-4">
+                            <label for="email" class="block text-gray-700 text-sm font-medium mb-2">Email Address</label>
+                            <input type="email" id="email" class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none" placeholder="Enter your email">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="flex items-center justify-between mb-2">
+                                <label for="password" class="block text-gray-700 text-sm font-medium">Password</label>
+                                <a href="#" class="text-sm text-blue-600 hover:underline">Forgot password?</a>
+                            </div>
+                            <div class="relative">
+                                <input type="password" id="password" class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none" placeholder="Enter your password">
+                                <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-500">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="h-4 w-4 text-blue-600 rounded">
+                                <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary w-full py-3 text-white font-bold rounded-lg">
+                            Log In
+                        </button>
+                    </form>
+                    
+                    <div class="relative my-6">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300"></div>
+                        </div>
+                        <div class="relative flex justify-center text-sm">
+                            <span class="px-2 bg-white text-gray-500">Or continue with</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Social Login -->
+                    <div class="flex justify-center space-x-4">
+                        <button class="social-btn flex items-center justify-center bg-blue-600 text-white rounded-lg px-4 py-2 w-full">
+                            <i class="fab fa-facebook-f mr-2"></i> Facebook
+                        </button>
+                        <button class="social-btn flex items-center justify-center bg-red-500 text-white rounded-lg px-4 py-2 w-full">
+                            <i class="fab fa-google mr-2"></i> Google
+                        </button>
+                    </div>
+                    
+                    <div class="text-center mt-6">
+                        <p class="text-gray-600">Don't have an account? <a href="#" class="text-blue-600 font-medium hover:underline">Sign up</a></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Learning Journey Preview -->
+            <div class="mt-12 text-center">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Continue Your Learning Journey</h3>
+                <div class="bg-white p-6 rounded-xl shadow-md max-w-lg mx-auto">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <div class="bg-blue-100 rounded-full p-3 mr-4">
+                                <i class="fas fa-chart-line text-blue-600 text-xl"></i>
+                            </div>
+                            <div class="text-left">
+                                <h4 class="font-semibold text-gray-800">Investment Basics</h4>
+                                <p class="text-gray-600 text-sm">Continue where you left off</p>
+                            </div>
+                        </div>
+                        <span class="text-sm text-blue-600 font-medium">75% complete</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 75%"></div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2">Log in to continue your progress</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="text-2xl font-bold text-white mb-4">
+                        <span>The</span><span class="text-green-400">Finance</span> <span>Shelf</span>
+                    </div>
+                    <p class="mb-4">
+                        Simplifying finance for every Indian through interactive learning, expert guidance, and community support.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Features</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition-colors">Daily Feed</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Case Breakdowns</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Myths & Facts</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Community Q&A</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Financial Dictionary</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Expert Consultations</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Financial Calculators</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Webinars</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Market Data</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Press Kit</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm">© 2025 The Finance Shelf Hub. All rights reserved.</p>
+                <div class="mt-4 md:mt-0">
+                    <a href="#" class="text-sm hover:text-white transition-colors mr-4">Privacy Policy</a>
+                    <a href="#" class="text-sm hover:text-white transition-colors mr-4">Terms of Service</a>
+                    <a href="#" class="text-sm hover:text-white transition-colors">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

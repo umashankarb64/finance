@@ -1,0 +1,1028 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Finance Shelf Hub - Your Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <style>
+        .streak-counter {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            border-radius: 20px;
+            padding: 10px 20px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .xp-counter {
+            background: linear-gradient(45deg, #4158D0, #C850C0);
+            border-radius: 20px;
+            padding: 10px 20px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-card {
+            transition: all 0.3s ease;
+            
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: #3B82F6;
+        }
+
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+
+        .badge {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #F3F4F6;
+            margin: 0 5px;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .badge.earned {
+            background: linear-gradient(45deg, #00B4DB, #0083B0);
+            color: white;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted #2563EB;
+            cursor: pointer;
+            color: #2563EB;
+            font-weight: 500;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 280px;
+            background-color: #fff;
+            color: #1F2937;
+            text-align: left;
+            border-radius: 6px;
+            padding: 12px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -140px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid #E5E7EB;
+            font-weight: normal;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .tab-button.active {
+            color: #3B82F6;
+            border-color: #3B82F6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="text-2xl font-bold text-blue-600">
+                    <img src="logo.png">
+                </div>
+            </div><space></space>
+            <nav class="hidden md:flex space-x-5 text-gray-700">
+                <a href="dashboard.html" class="hover:text-blue-600 font-medium text-blue-600">Home</a>
+                <a href="dailyfeed.html" class="hover:text-blue-600 font-medium">Articles</a>
+                <a href="cases.html" class="hover:text-blue-600 font-medium">Case Breakdowns</a>
+                <a href="myths.html" class="hover:text-blue-600 font-medium">Myths &amp; Facts</a>
+                <a href="community.html" class="hover:text-blue-600 font-medium">Community</a>
+                <a href="dictionary.html" class="hover:text-blue-600 font-medium">Dictionary</a>
+                <a href="experts.html" class="hover:text-blue-600 font-medium">Experts</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <button class="text-gray-600 hover:text-gray-800">
+                        <i class="far fa-bell text-xl"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">3</span>
+                    </button>
+                </div>
+                <span class="streak-counter text-sm"><i class="fas fa-fire mr-1"></i> 7 Day Streak</span>
+                <span class="xp-counter text-sm"><i class="fas fa-bolt mr-1"></i> 450 XP</span>
+                
+                <!-- Improved Profile Dropdown -->
+                <div class="relative" id="profileDropdown">
+                    <button class="flex items-center cursor-pointer focus:outline-none" onclick="toggleProfileMenu()">
+                        <img src="https://avatar.iran.liara.run/public/77" alt="Swati" class="h-8 w-8 rounded-full border-2 border-blue-500">
+                        <span class="ml-2 hidden lg:block">Swati</span>
+                        <i class="fas fa-chevron-down ml-1 text-xs text-gray-500"></i>
+                    </button>
+                    <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 hidden z-50">
+                        <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-user-circle mr-2"></i> My Profile
+                        </a>
+                        <a href="settings.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-cog mr-2"></i> Settings
+                        </a>
+                        <a href="learning.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-graduation-cap mr-2"></i> My Learning
+                        </a>
+                        <a href="favorites.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-bookmark mr-2"></i> Saved Items
+                        </a>
+                        <a href="help.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-question-circle mr-2"></i> Help Center
+                        </a>
+                        <div class="border-t border-gray-200 my-1"></div>
+                        <a href="logout.html" class="block px-4 py-2 text-red-600 hover:bg-gray-100">
+                            <i class="fas fa-sign-out-alt mr-2"></i> Sign Out
+                        </a>
+                    </div>
+                </div>
+                
+                <button class="block md:hidden text-gray-500 hover:text-gray-700" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobileMenu" class="md:hidden hidden bg-white border-t border-gray-200 py-2">
+            <nav class="flex flex-col space-y-2 px-4">
+                <a href="dashboard.html" class="py-2 text-blue-600 font-medium">Dashboard</a>
+                <a href="dailyfeed.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Daily Feed</a>
+                <a href="cases.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Case Breakdowns</a>
+                <a href="myths.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Myths &amp; Facts</a>
+                <a href="community.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Community</a>
+                <a href="dictionary.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Dictionary</a>
+                <a href="experts.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Experts</a>
+            </nav>
+        </div>
+        
+        <!-- JavaScript for toggles -->
+        <script>
+            function toggleProfileMenu() {
+                const menu = document.getElementById('profileMenu');
+                menu.classList.toggle('hidden');
+            }
+            
+            function toggleMobileMenu() {
+                const menu = document.getElementById('mobileMenu');
+                menu.classList.toggle('hidden');
+            }
+            
+            // Close the dropdown when clicking outside
+            window.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('profileDropdown');
+                const menu = document.getElementById('profileMenu');
+                
+                if (!dropdown.contains(event.target) && !menu.classList.contains('hidden')) {
+                    menu.classList.add('hidden');
+                }
+            });
+        </script>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- Dashboard Title -->
+        <div class="mb-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">Welcome back, Swati!</h1>
+                    <p class="text-gray-600">Here's your financial learning dashboard for Thursday, April 10</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-gray-600">Last login: Today at 10:23 AM</p>
+                    <p class="text-sm font-medium text-blue-600">
+                        <i class="fas fa-chart-line mr-1"></i> Level 6 Financial Explorer
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Summary -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="dashboard-card bg-white p-4 rounded-xl shadow-sm">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-fire text-blue-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-600 text-sm">Daily Streak</p>
+                        <div class="flex items-center">
+                            <p class="text-2xl font-bold text-gray-800">7</p>
+                            <p class="ml-1 text-sm text-green-600">
+                                <i class="fas fa-arrow-up"></i> +1
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="text-sm text-gray-600 flex justify-between mb-1">
+                        <span>Current</span>
+                        <span>Best: 14 days</span>
+                    </div>
+                    <div class="w-full h-2 bg-gray-100 rounded-full">
+                        <div class="bg-blue-600 h-full rounded-full" style="width: 50%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-card bg-white p-4 rounded-xl shadow-sm">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-bolt text-purple-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-600 text-sm">Total XP</p>
+                        <div class="flex items-center">
+                            <p class="text-2xl font-bold text-gray-800">450</p>
+                            <p class="ml-1 text-sm text-green-600">
+                                <i class="fas fa-arrow-up"></i> +20
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="text-sm text-gray-600 flex justify-between mb-1">
+                        <span>Level 6</span>
+                        <span>Next: 500 XP</span>
+                    </div>
+                    <div class="w-full h-2 bg-gray-100 rounded-full">
+                        <div class="bg-purple-600 h-full rounded-full" style="width: 90%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-card bg-white p-4 rounded-xl shadow-sm">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-book text-green-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-600 text-sm">Terms Learned</p>
+                        <div class="flex items-center">
+                            <p class="text-2xl font-bold text-gray-800">47</p>
+                            <p class="ml-1 text-sm text-green-600">
+                                <i class="fas fa-arrow-up"></i> +3
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="text-sm text-gray-600 flex justify-between mb-1">
+                        <span>Beginner</span>
+                        <span>Goal: 100 terms</span>
+                    </div>
+                    <div class="w-full h-2 bg-gray-100 rounded-full">
+                        <div class="bg-green-600 h-full rounded-full" style="width: 47%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-card bg-white p-4 rounded-xl shadow-sm">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-trophy text-yellow-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-600 text-sm">Badges Earned</p>
+                        <div class="flex items-center">
+                            <p class="text-2xl font-bold text-gray-800">5/12</p>
+                            <p class="ml-1 text-sm text-green-600">
+                                <i class="fas fa-plus"></i> New
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="text-sm text-gray-600 flex justify-between mb-1">
+                        <span>Bronze Tier</span>
+                        <span>Silver: 8 badges</span>
+                    </div>
+                    <div class="w-full h-2 bg-gray-100 rounded-full">
+                        <div class="bg-yellow-500 h-full rounded-full" style="width: 42%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Two-column Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Left Column (2/3 width) -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Continue Learning Section -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold text-gray-800">Continue Your Learning</h2>
+                        <a href="#" class="text-blue-600 text-sm hover:underline">View All <i class="fas fa-arrow-right text-xs ml-1"></i></a>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <!-- In Progress Case Study -->
+                        <div class="section-card bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0 mr-4">
+                                    <i class="fas fa-scroll text-purple-600"></i>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <span class="text-xs bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full">Case Breakdown</span>
+                                            <h3 class="font-medium text-gray-800 mt-1">The Harshad Mehta Scam (1992)</h3>
+                                        </div>
+                                        <span class="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">
+                                            <i class="fas fa-bolt mr-1"></i> +15 XP
+                                        </span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-1 mb-3">Learn how a stockbroker exploited banking loopholes to manipulate the market.</p>
+                                    <div class="flex justify-between items-center">
+                                        <div class="w-full max-w-xs">
+                                            <div class="flex justify-between text-xs mb-1">
+                                                <span>40% completed</span>
+                                                <span>Last activity: 2 days ago</span>
+                                            </div>
+                                            <div class="w-full h-2 bg-gray-100 rounded-full">
+                                                <div class="bg-purple-600 h-full rounded-full" style="width: 40%"></div>
+                                            </div>
+                                        </div>
+                                        <a href="#" class="ml-4 bg-purple-600 text-white text-sm px-4 py-1.5 rounded-lg font-medium hover:bg-purple-700 transition-colors">
+                                            Continue
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Recent Daily Feed Article -->
+                        <div class="section-card bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 mr-4">
+                                    <i class="fas fa-newspaper text-blue-600"></i>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">Daily Feed</span>
+                                            <h3 class="font-medium text-gray-800 mt-1">Budget 2025: Five Key Changes That Affect Your Taxes</h3>
+                                        </div>
+                                        <span class="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">
+                                            <i class="fas fa-bolt mr-1"></i> +12 XP
+                                        </span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-1 mb-3">Understand the recent budget's impact on your personal taxation and financial planning.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-xs text-gray-500">Posted 6 hours ago • 5 min read</span>
+                                        <a href="#" class="ml-4 bg-blue-600 text-white text-sm px-4 py-1.5 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                                            Read Now
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Daily Quiz -->
+                        <div class="section-card bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0 mr-4">
+                                    <i class="fas fa-question-circle text-green-600"></i>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <span class="text-xs bg-green-100 text-green-600 px-2 py-0.5 rounded-full">Daily Quiz</span>
+                                            <h3 class="font-medium text-gray-800 mt-1">Personal Finance Basics</h3>
+                                        </div>
+                                        <span class="text-xs bg-green-100 text-green-600 px-2 py-0.5 rounded-full">
+                                            <i class="fas fa-bolt mr-1"></i> +20 XP
+                                        </span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-1 mb-3">Test your knowledge on fundamental personal finance concepts in a short 5-question quiz.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-xs text-gray-500">Updated today • 2-3 min to complete</span>
+                                        <a href="#" class="ml-4 bg-green-600 text-white text-sm px-4 py-1.5 rounded-lg font-medium hover:bg-green-700 transition-colors">
+                                            Take Quiz
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Latest Badges Section -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold text-gray-800">Your Achievements</h2>
+                        <a href="#" class="text-blue-600 text-sm hover:underline">View All <i class="fas fa-arrow-right text-xs ml-1"></i></a>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-sm font-medium text-gray-700 mb-3">Latest Badge Earned</h3>
+                        <div class="bg-gray-50 rounded-lg p-4 flex items-center">
+                            <div class="badge earned mr-4">
+                                <i class="fas fa-university text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Banking Basics</h4>
+                                <p class="text-sm text-gray-600 mb-1">Earned for mastering fundamental banking concepts and terminology</p>
+                                <p class="text-xs text-gray-500">Earned 2 days ago</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-700 mb-3">All Badges</h3>
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <div class="text-center">
+                                <div class="badge earned mb-1">
+                                    <i class="fas fa-star text-xl"></i>
+                                </div>
+                                <p class="text-xs">Getting Started</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="badge earned mb-1">
+                                    <i class="fas fa-book text-xl"></i>
+                                </div>
+                                <p class="text-xs">Dictionary Pro</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="badge earned mb-1">
+                                    <i class="fas fa-chart-line text-xl"></i>
+                                </div>
+                                <p class="text-xs">Market Watcher</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="badge earned mb-1">
+                                    <i class="fas fa-university text-xl"></i>
+                                </div>
+                                <p class="text-xs">Banking Basics</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="badge earned mb-1">
+                                    <i class="fas fa-piggy-bank text-xl"></i>
+                                </div>
+                                <p class="text-xs">Savings Master</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="badge mb-1">
+                                    <i class="fas fa-calculator text-gray-300 text-xl"></i>
+                                </div>
+                                <p class="text-xs text-gray-400">Tax Wizard</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="badge mb-1">
+                                    <i class="fas fa-coins text-gray-300 text-xl"></i>
+                                </div>
+                                <p class="text-xs text-gray-400">Investor</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="badge mb-1">
+                                    <i class="fas fa-hand-holding-usd text-gray-300 text-xl"></i>
+                                </div>
+                                <p class="text-xs text-gray-400">Budgeting Pro</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Activity Feed -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold text-gray-800">Recent Activity</h2>
+                        <a href="#" class="text-blue-600 text-sm hover:underline">View All <i class="fas fa-arrow-right text-xs ml-1"></i></a>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mr-3">
+                                <i class="fas fa-book text-blue-600 text-sm"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <p class="text-gray-800">You learned the term <a href="#" class="text-blue-600 font-medium hover:underline">SIP (Systematic Investment Plan)</a></p>
+                                <p class="text-sm text-gray-500">Today at 11:32 AM</p>
+                            </div>
+                            <div class="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full h-fit">
+                                +5 XP
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 mr-3">
+                                <i class="fas fa-newspaper text-purple-600 text-sm"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <p class="text-gray-800">You read <a href="#" class="text-blue-600 font-medium hover:underline">RBI's New Digital Currency: What it Means for You</a></p>
+                                <p class="text-sm text-gray-500">Today at 10:15 AM</p>
+                            </div>
+                            <div class="text-xs bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full h-fit">
+                                +15 XP
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mr-3">
+                                <i class="fas fa-university text-green-600 text-sm"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <p class="text-gray-800">You earned the <span class="font-medium">Banking Basics</span> badge</p>
+                                <p class="text-sm text-gray-500">2 days ago</p>
+                            </div>
+                            <div class="text-xs bg-green-100 text-green-600 px-2 py-0.5 rounded-full h-fit">
+                                +50 XP
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0 mr-3">
+                                <i class="fas fa-question-circle text-yellow-600 text-sm"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <p class="text-gray-800">You asked a question in the community: <a href="#" class="text-blue-600 font-medium hover:underline">How do I decide between prepaying my home loan vs investing?</a></p>
+                                <p class="text-sm text-gray-500">2 days ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0 mr-3">
+                                <i class="fas fa-graduation-cap text-red-600 text-sm"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <p class="text-gray-800">You completed the quiz: <span class="font-medium">Investing Fundamentals</span> with a score of 90%</p>
+                                <p class="text-sm text-gray-500">3 days ago</p>
+                            </div>
+                            <div class="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full h-fit">
+                                +20 XP
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Path Progress -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-lg font-semibold text-gray-800">Your Learning Path: Investing Basics</h2>
+                        <div>
+                            <span class="text-sm text-gray-500 mr-2">Progress: 42%</span>
+                            <a href="#" class="text-blue-600 text-sm hover:underline">Change Path</a>
+                        </div>
+                    </div>
+                    
+                    <div class="relative pb-12">
+                        <!-- Progress Bar -->
+                        <div class="absolute left-6 top-0 h-full w-1 bg-gray-200"></div>
+                        
+                        <!-- Completed Modules -->
+                        <div class="relative mb-8">
+                            <div class="flex items-start">
+                                <div class="absolute left-6 w-4 h-4 bg-green-500 rounded-full transform -translate-x-1/2 mt-1.5 z-10"></div>
+                                <div class="pl-10">
+                                    <h3 class="text-green-600 font-medium">Module 1: Understanding Investment Basics</h3>
+                                    <p class="text-sm text-gray-600 mt-1">Risk &amp; Return, Asset Classes, Time Value of Money</p>
+                                    <div class="mt-2 flex items-center">
+                                        <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Completed</span>
+                                        <span class="ml-3 text-xs text-gray-500">3 lessons • Quiz Score: 90%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="relative mb-8">
+                            <div class="flex items-start">
+                                <div class="absolute left-6 w-4 h-4 bg-green-500 rounded-full transform -translate-x-1/2 mt-1.5 z-10"></div>
+                                <div class="pl-10">
+                                    <h3 class="text-green-600 font-medium">Module 2: Mutual Funds Fundamentals</h3>
+                                    <p class="text-sm text-gray-600 mt-1">Types of Mutual Funds, NAV, Expense Ratio, SIPs</p>
+                                    <div class="mt-2 flex items-center">
+                                        <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Completed</span>
+                                        <span class="ml-3 text-xs text-gray-500">4 lessons • Quiz Score: 85%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Current Module -->
+                        <div class="relative mb-8">
+                            <div class="flex items-start">
+                                <div class="absolute left-6 w-6 h-6 bg-blue-500 rounded-full transform -translate-x-1/2 mt-1 z-10 flex items-center justify-center">
+                                    <i class="fas fa-play text-white text-xs"></i>
+                                </div>
+                                <div class="pl-10">
+                                    <h3 class="text-blue-600 font-medium">Module 3: Stock Market Basics</h3>
+                                    <p class="text-sm text-gray-600 mt-1">Stock Exchanges, IPOs, Demat Accounts, Trading Basics</p>
+                                    <div class="mt-2 flex items-center">
+                                        <span class="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full">In Progress</span>
+                                        <span class="ml-3 text-xs text-gray-500">2/5 lessons completed</span>
+                                    </div>
+                                    <a href="#" class="mt-3 inline-block bg-blue-600 text-white text-sm px-4 py-1.5 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                                        Continue Learning
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Upcoming Modules -->
+                        <div class="relative mb-8">
+                            <div class="flex items-start">
+                                <div class="absolute left-6 w-4 h-4 bg-gray-300 rounded-full transform -translate-x-1/2 mt-1.5 z-10"></div>
+                                <div class="pl-10">
+                                    <h3 class="text-gray-500 font-medium">Module 4: Fundamental Analysis</h3>
+                                    <p class="text-sm text-gray-600 mt-1">Financial Statements, Ratios, Company Valuation</p>
+                                    <div class="mt-2 flex items-center">
+                                        <span class="bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded-full">Locked</span>
+                                        <span class="ml-3 text-xs text-gray-500">4 lessons • 1 quiz</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="relative">
+                            <div class="flex items-start">
+                                <div class="absolute left-6 w-4 h-4 bg-gray-300 rounded-full transform -translate-x-1/2 mt-1.5 z-10"></div>
+                                <div class="pl-10">
+                                    <h3 class="text-gray-500 font-medium">Module 5: Creating a Balanced Portfolio</h3>
+                                    <p class="text-sm text-gray-600 mt-1">Asset Allocation, Diversification, Rebalancing</p>
+                                    <div class="mt-2 flex items-center">
+                                        <span class="bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded-full">Locked</span>
+                                        <span class="ml-3 text-xs text-gray-500">3 lessons • 1 quiz</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Community Questions -->
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold text-gray-800">Your Community Activity</h2>
+                        <a href="#" class="text-blue-600 text-sm hover:underline">Go to Community <i class="fas fa-arrow-right text-xs ml-1"></i></a>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h3 class="text-sm font-medium text-gray-700 mb-3">Your Recent Question</h3>
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-medium text-gray-800">How do I decide between prepaying my home loan vs investing the extra money?</h4>
+                                <span class="bg-yellow-100 text-yellow-600 text-xs px-2 py-0.5 rounded-full">
+                                    5 Answers
+                                </span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-2 mb-3">I have a home loan with 15 years remaining at 8.5% interest rate. I recently got a bonus and can either prepay part of my loan or invest in mutual funds. Which option makes more financial sense in the long term?</p>
+                            <div class="flex items-center text-xs text-gray-500">
+                                <span>Posted 2 days ago</span>
+                                <span class="mx-2">•</span>
+                                <span>42 views</span>
+                                <span class="ml-auto text-blue-600">View Answers</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-sm font-medium text-gray-700 mb-3">Questions You Might Answer</h3>
+                    <div class="space-y-3">
+                        <div class="border-l-4 border-blue-500 pl-3 py-1">
+                            <a href="#" class="font-medium text-gray-800 hover:text-blue-600">What's the difference between direct mutual funds and regular mutual funds?</a>
+                            <p class="text-xs text-gray-500 mt-1">Asked 5 hours ago • 3 answers</p>
+                        </div>
+                        <div class="border-l-4 border-blue-500 pl-3 py-1">
+                            <a href="#" class="font-medium text-gray-800 hover:text-blue-600">Is it worth investing in digital gold instead of physical gold?</a>
+                            <p class="text-xs text-gray-500 mt-1">Asked 2 days ago • 6 answers</p>
+                        </div>
+                        <div class="border-l-4 border-blue-500 pl-3 py-1">
+                            <a href="#" class="font-medium text-gray-800 hover:text-blue-600">How can I start investing with just ₹500 per month?</a>
+                            <p class="text-xs text-gray-500 mt-1">Asked 3 days ago • 4 answers</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column (1/3 width) -->
+            <div class="space-y-6">
+                <!-- Today's Learning Recommendation -->
+                <div class="dashboard-card bg-white rounded-xl shadow-sm p-6">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Today's Recommendation</h2>
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                            <i class="fas fa-book text-blue-600 text-xl"></i>
+                        </div>
+                        <h3 class="font-medium text-gray-800 mb-1">Learn about SIPs</h3>
+                        <p class="text-sm text-gray-600 mb-3">
+                            Understand how Systematic Investment Plans work and why they're a popular investment method.
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-gray-500">5 min read</span>
+                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">
+                                +10 XP
+                            </span>
+                        </div>
+                        <a href="#" class="mt-3 block text-center bg-blue-600 text-white text-sm py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                            Start Learning
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Market Updates -->
+                <div class="dashboard-card bg-white rounded-xl shadow-sm p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold text-gray-800">Market Updates</h2>
+                        <a href="#" class="text-blue-600 text-sm hover:underline">View All</a>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-chart-line text-blue-600 text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-800">Nifty 50</p>
+                                    <p class="text-sm text-gray-500">NSE India</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-medium text-gray-800">19,783.45</p>
+                                <p class="text-sm text-green-600">+128.35 (0.65%)</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-chart-line text-blue-600 text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-800">Sensex</p>
+                                    <p class="text-sm text-gray-500">BSE India</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-medium text-gray-800">64,982.81</p>
+                                <p class="text-sm text-green-600">+385.65 (0.60%)</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fab fa-bitcoin text-orange-600 text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-800">Bitcoin</p>
+                                    <p class="text-sm text-gray-500">Cryptocurrency</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-medium text-gray-800">₹55,82,490</p>
+                                <p class="text-sm text-green-600">+1.24%</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-coins text-yellow-600 text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-800">Gold (10g)</p>
+                                    <p class="text-sm text-gray-500">Commodity</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-medium text-gray-800">₹71,250</p>
+                                <p class="text-sm text-green-600">+0.85%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Trending Financial Terms -->
+                <div class="dashboard-card bg-white rounded-xl shadow-sm p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold text-gray-800">Trending Terms</h2>
+                        <a href="#" class="text-blue-600 text-sm hover:underline">Dictionary</a>
+                    </div>
+                    <div class="space-y-3">
+                        <a href="#" class="trending-topic flex justify-between items-center p-2 rounded-lg hover:bg-blue-50">
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                                    <i class="fas fa-search text-blue-600 text-xs"></i>
+                                </div>
+                                <span class="text-gray-800">SIP (Systematic Investment Plan)</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
+                        </a>
+                        <a href="#" class="trending-topic flex justify-between items-center p-2 rounded-lg hover:bg-blue-50">
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                                    <i class="fas fa-search text-blue-600 text-xs"></i>
+                                </div>
+                                <span class="text-gray-800">CBDC (Central Bank Digital Currency)</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
+                        </a>
+                        <a href="#" class="trending-topic flex justify-between items-center p-2 rounded-lg hover:bg-blue-50">
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                                    <i class="fas fa-search text-blue-600 text-xs"></i>
+                                </div>
+                                <span class="text-gray-800">Tax Slabs</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
+                        </a>
+                        <a href="#" class="trending-topic flex justify-between items-center p-2 rounded-lg hover:bg-blue-50">
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                                    <i class="fas fa-search text-blue-600 text-xs"></i>
+                                </div>
+                                <span class="text-gray-800">Small Cap Stocks</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
+                        </a>
+                        <a href="#" class="trending-topic flex justify-between items-center p-2 rounded-lg hover:bg-blue-50">
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-2 flex-shrink-0">
+                                    <i class="fas fa-search text-blue-600 text-xs"></i>
+                                </div>
+                                <span class="text-gray-800">Digital Gold</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Upcoming Expert Sessions -->
+                <div class="dashboard-card bg-white rounded-xl shadow-sm p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold text-gray-800">Upcoming Expert Sessions</h2>
+                        <a href="#" class="text-blue-600 text-sm hover:underline">View All</a>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="border border-gray-200 rounded-lg p-3">
+                            <div class="flex items-start">
+                                <img src="https://avatar.iran.liara.run/public/43" alt="Expert Photo" class="w-10 h-10 rounded-full mr-3">
+                                <div>
+                                    <h3 class="font-medium text-gray-800 text-sm">Understanding the New Tax Regime</h3>
+                                    <p class="text-xs text-gray-500 mb-1">by Nameer Jas, CA • Tax Expert</p>
+                                    <p class="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full inline-block mb-1">
+                                        <i class="far fa-calendar mr-1"></i> Tomorrow, 6:00 PM
+                                    </p>
+                                    <div class="flex items-center text-xs mt-1">
+                                        <span class="text-gray-500">₹999</span>
+                                        <span class="mx-2">•</span>
+                                        <span class="text-gray-500">45 min session</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border border-gray-200 rounded-lg p-3">
+                            <div class="flex items-start">
+                                <img src="https://avatar.iran.liara.run/public/97" alt="Expert Photo" class="w-10 h-10 rounded-full mr-3">
+                                <div>
+                                    <h3 class="font-medium text-gray-800 text-sm">Creating a Balanced Investment Portfolio</h3>
+                                    <p class="text-xs text-gray-500 mb-1">by Priya Mehta, CFP • Financial Planner</p>
+                                    <p class="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full inline-block mb-1">
+                                        <i class="far fa-calendar mr-1"></i> April 15, 5:30 PM
+                                    </p>
+                                    <div class="flex items-center text-xs mt-1">
+                                        <span class="text-gray-500">₹1,499</span>
+                                        <span class="mx-2">•</span>
+                                        <span class="text-gray-500">60 min session</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="mt-4 w-full bg-blue-600 text-white text-sm py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                        Book a Consultation
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+
+
+<footer class="bg-gray-800 text-gray-300 pt-8 pb-6 mt-8">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <!-- Quick Links -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-tachometer-alt mr-2 text-gray-400"></i> My Dashboard</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-graduation-cap mr-2 text-gray-400"></i> My Learning Path</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-trophy mr-2 text-gray-400"></i> My Achievements</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-bookmark mr-2 text-gray-400"></i> Saved Content</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-history mr-2 text-gray-400"></i> Learning History</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-cog mr-2 text-gray-400"></i> Account Settings</a></li>
+                </ul>
+            </div>
+            
+            <!-- Platform Features -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">Explore Features</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white transition-colors">Daily Feed</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Case Breakdowns</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Myths &amp; Facts</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Community Q&amp;A</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Financial Dictionary</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Expert Consultations</a></li>
+                </ul>
+            </div>
+            
+            <!-- Learning Resources -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">Learning Resources</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white transition-colors">Financial Calculators</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Market Data</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Webinars &amp; Events</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Knowledge Base</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Download Mobile App</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                </ul>
+            </div>
+            
+            <!-- User Support -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">User Support</h3>
+                <p class="text-sm mb-4">Need help with your financial learning journey? Our support team is here for you.</p>
+                <div class="flex items-center mb-4">
+                    <a href="#" class="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-lg transition-colors flex items-center">
+                        <i class="far fa-comment-dots mr-2"></i> Contact Support
+                    </a>
+                </div>
+                <p class="text-sm mb-2">Working hours: 9AM-7PM, Mon-Sat</p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- User Status Info & Copyright -->
+        <div class="border-t border-gray-700 pt-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center text-sm">
+                        <span><i class="fas fa-circle text-green-500 mr-2 text-xs"></i> Logged in as: Swati</span>
+                        <span class="mx-3">•</span>
+                        <span>Level 6 Financial Explorer</span>
+                        <span class="mx-3">•</span>
+                        <span>Last login: Today at 10:23 AM</span>
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row items-center">
+                    <a href="#" class="text-sm hover:text-white transition-colors mr-4">Privacy Policy</a>
+                    <a href="#" class="text-sm hover:text-white transition-colors mr-4">Terms of Service</a>
+                    <a href="#" class="text-sm hover:text-white transition-colors">Logout</a>
+                </div>
+            </div>
+            <div class="text-center mt-6">
+                <p class="text-sm">© 2025 The Finance Shelf Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+</body><!-- Footer for Logged-In Users --></html>

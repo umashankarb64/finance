@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Finance Shelf Hub - Myths & Facts</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted #2563EB;
+            cursor: pointer;
+            color: #2563EB;
+            font-weight: 500;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 300px;
+            background-color: #fff;
+            color: #1F2937;
+            text-align: left;
+            border-radius: 6px;
+            padding: 15px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -150px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid #E5E7EB;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .streak-counter {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            border-radius: 20px;
+            padding: 10px 20px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .xp-counter {
+            background: linear-gradient(45deg, #4158D0, #C850C0);
+            border-radius: 20px;
+            padding: 10px 20px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .myth-card {
+            transition: all 0.3s ease;
+        }
+        
+        .myth-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-chip {
+            transition: all 0.2s ease;
+        }
+        
+        .filter-chip:hover, .filter-chip.active {
+            background-color: #2563EB;
+            color: white;
+        }
+
+        .bookmark-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .bookmark-btn:hover {
+            color: #2563EB;
+            transform: scale(1.1);
+        }
+
+        .myth-label {
+            background-color: #FEE2E2;
+            color: #DC2626;
+        }
+        
+        .fact-label {
+            background-color: #D1FAE5;
+            color: #059669;
+        }
+
+        .source-badge {
+            transition: all 0.2s ease;
+        }
+        
+        .source-badge:hover {
+            transform: scale(1.05);
+        }
+
+        .social-share-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .social-share-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .accordion-button {
+            transition: all 0.3s ease;
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .accordion-content.open {
+            max-height: 1000px;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="text-2xl font-bold text-blue-600">
+                     <img src="logo.png">
+                </div>
+            </div>
+            <nav class="hidden md:flex space-x-5 text-gray-700">
+                <a href="dashboard.html" class="hover:text-blue-600 font-medium ">Home</a>
+                <a href="dailyfeed.html" class="hover:text-blue-600 font-medium">Articles</a>
+                <a href="cases.html" class="hover:text-blue-600 font-medium">Case Breakdowns</a>
+                <a href="myths.html" class="hover:text-blue-600 font-medium text-blue-600">Myths &amp; Facts</a>
+                <a href="community.html" class="hover:text-blue-600 font-medium">Community</a>
+                <a href="dictionary.html" class="hover:text-blue-600 font-medium">Dictionary</a>
+                <a href="experts.html" class="hover:text-blue-600 font-medium">Experts</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <button class="text-gray-600 hover:text-gray-800">
+                        <i class="far fa-bell text-xl"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">3</span>
+                    </button>
+                </div>
+                <span class="streak-counter text-sm"><i class="fas fa-fire mr-1"></i> 7 Day Streak</span>
+                <span class="xp-counter text-sm"><i class="fas fa-bolt mr-1"></i> 450 XP</span>
+                
+                <!-- Improved Profile Dropdown -->
+                <div class="relative" id="profileDropdown">
+                    <button class="flex items-center cursor-pointer focus:outline-none" onclick="toggleProfileMenu()">
+                        <img src="https://avatar.iran.liara.run/public/77" alt="Swati" class="h-8 w-8 rounded-full border-2 border-blue-500">
+                        <span class="ml-2 hidden lg:block">Swati</span>
+                        <i class="fas fa-chevron-down ml-1 text-xs text-gray-500"></i>
+                    </button>
+                    <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 hidden z-50">
+                        <a href="profile.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-user-circle mr-2"></i> My Profile
+                        </a>
+                        <a href="settings.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-cog mr-2"></i> Settings
+                        </a>
+                        <a href="learning.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-graduation-cap mr-2"></i> My Learning
+                        </a>
+                        <a href="favorites.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-bookmark mr-2"></i> Saved Items
+                        </a>
+                        <a href="help.html" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-question-circle mr-2"></i> Help Center
+                        </a>
+                        <div class="border-t border-gray-200 my-1"></div>
+                        <a href="logout.html" class="block px-4 py-2 text-red-600 hover:bg-gray-100">
+                            <i class="fas fa-sign-out-alt mr-2"></i> Sign Out
+                        </a>
+                    </div>
+                </div>
+                
+                <button class="block md:hidden text-gray-500 hover:text-gray-700" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobileMenu" class="md:hidden hidden bg-white border-t border-gray-200 py-2">
+            <nav class="flex flex-col space-y-2 px-4">
+                <a href="dashboard.html" class="py-2 text-blue-600 font-medium hover:text-blue-600">Dashboard</a>
+                <a href="dailyfeed.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Daily Feed</a>
+                <a href="cases.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Case Breakdowns</a>
+                <a href="myths.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Myths &amp; Facts</a>
+                <a href="community.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Community</a>
+                <a href="dictionary.html" class="py-2 text-gray-700 font-medium hover:text-blue-600">Dictionary</a>
+                <a href="experts.html" class="py-2 text-gray-700 font-medium ">Experts</a>
+            </nav>
+        </div>
+        
+        <!-- JavaScript for toggles -->
+        <script>
+            function toggleProfileMenu() {
+                const menu = document.getElementById('profileMenu');
+                menu.classList.toggle('hidden');
+            }
+            
+            function toggleMobileMenu() {
+                const menu = document.getElementById('mobileMenu');
+                menu.classList.toggle('hidden');
+            }
+            
+            // Close the dropdown when clicking outside
+            window.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('profileDropdown');
+                const menu = document.getElementById('profileMenu');
+                
+                if (!dropdown.contains(event.target) && !menu.classList.contains('hidden')) {
+                    menu.classList.add('hidden');
+                }
+            });
+        </script>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Myths & Facts</h1>
+                <p class="text-gray-600">Debunking financial misinformation with evidence-based explanations</p>
+            </div>
+            <div class="flex space-x-3">
+                <button class="bg-white text-gray-600 px-4 py-2 rounded-full border shadow-sm hover:bg-gray-50">
+                    <i class="fas fa-sliders-h mr-2"></i> Filter
+                </button>
+                <button class="bg-white text-gray-600 px-4 py-2 rounded-full border shadow-sm hover:bg-gray-50">
+                    <i class="fas fa-search mr-2"></i> Search
+                </button>
+                <div class="relative">
+                    <button class="bg-white text-blue-600 border border-blue-600 px-4 py-2 rounded-full shadow-sm hover:bg-blue-50">
+                        <i class="fas fa-lightbulb mr-2"></i> Submit a Myth
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="mb-8 overflow-x-auto">
+            <div class="flex space-x-2 py-2">
+                <button class="filter-chip active whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                    All Topics
+                </button>
+                <button class="filter-chip whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                    Investing
+                </button>
+                <button class="filter-chip whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                    Taxation
+                </button>
+                <button class="filter-chip whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                    Banking
+                </button>
+                <button class="filter-chip whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                    Insurance
+                </button>
+                <button class="filter-chip whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                    Cryptocurrency
+                </button>
+                <button class="filter-chip whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                    Trending
+                </button>
+                <button class="filter-chip whitespace-nowrap px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-sm font-medium">
+                    Recently Added
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Myths & Facts Column -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Feature Myth/Fact Card -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden myth-card">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center">
+                                <span class="myth-label text-xs font-bold px-3 py-1 rounded-full mr-3">MYTH</span>
+                                <h2 class="text-xl font-bold text-gray-800">"You need a lot of money to start investing in the stock market"</h2>
+                            </div>
+                            <div class="flex items-center space-x-3 text-gray-400">
+                                <button class="bookmark-btn">
+                                    <i class="far fa-bookmark text-lg"></i>
+                                </button>
+                                <button class="bookmark-btn">
+                                    <i class="far fa-share-square text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-purple-100 text-purple-600 text-xs font-medium px-2 py-1 rounded">Investing</span>
+                            <span class="bg-yellow-100 text-yellow-600 text-xs font-medium px-2 py-1 rounded">Stock Market</span>
+                            <span class="bg-red-100 text-red-600 text-xs font-medium px-2 py-1 rounded">Trending</span>
+                        </div>
+                        
+                        <!-- The Myth -->
+                        <div class="mb-6">
+                            <h3 class="text-sm font-semibold text-gray-500 mb-2">THE CLAIM:</h3>
+                            <p class="text-gray-600 italic">
+                                "You need at least ₹50,000 or more to start investing in the stock market. Small investments are not worth it because of high brokerage fees and minimal returns."
+                            </p>
+                        </div>
+                        
+                        <!-- The Fact -->
+                        <div class="mb-6">
+                            <h3 class="text-sm font-semibold text-green-600 mb-2">THE FACT:</h3>
+                            <p class="text-gray-600 mb-4">
+                                You can start investing in the Indian stock market with as little as ₹500. Many <span class="tooltip">discount brokers
+                                    <span class="tooltiptext">
+                                        <strong>Discount Brokers</strong><br>
+                                        Brokerage firms that execute trades at significantly lower commissions compared to full-service brokers, typically without providing investment advice or research.<br><br>
+                                        <strong>Example:</strong> Zerodha, Upstox, and Groww are popular discount brokers in India that charge flat fees per trade rather than percentage-based fees.
+                                    </span>
+                                </span> now offer zero brokerage for equity delivery, and platforms allow investments in <span class="tooltip">fractional shares
+                                    <span class="tooltiptext">
+                                        <strong>Fractional Shares</strong><br>
+                                        Portions of a single share of a company, allowing investors to buy a slice of high-priced stocks with smaller amounts of money.<br><br>
+                                        <strong>Example:</strong> Instead of buying one full share of Amazon at ₹30,000, you could invest ₹5,000 to own 1/6th of a share.
+                                    </span>
+                                </span> and <span class="tooltip">mutual fund SIPs
+                                    <span class="tooltiptext">
+                                        <strong>Mutual Fund SIPs (Systematic Investment Plans)</strong><br>
+                                        An investment method that allows investors to invest fixed amounts regularly in mutual funds, typically monthly or quarterly.<br><br>
+                                        <strong>Example:</strong> Setting up a monthly SIP of ₹500 in an index fund that invests in Nifty 50 companies.
+                                    </span>
+                                </span> with very small amounts.
+                            </p>
+                            <p class="text-gray-600">
+                                The power of <span class="tooltip">compounding
+                                    <span class="tooltiptext">
+                                        <strong>Compounding</strong><br>
+                                        The process by which an investment generates earnings not only on the initial principal but also on accumulated earnings from previous periods.<br><br>
+                                        <strong>Example:</strong> A monthly investment of ₹1,000 at 12% annual returns can grow to over ₹4.5 lakhs in 10 years due to compounding.
+                                    </span>
+                                </span> works even on small investments. Starting early with small amounts is often more beneficial than waiting to accumulate a large sum. According to SEBI data, over 70% of new investors in 2023-24 started with investments under ₹10,000.
+                            </p>
+                        </div>
+                        
+                        <!-- Sources & Evidence -->
+                        <div class="mb-6">
+                            <h3 class="text-sm font-semibold text-gray-700 mb-3">SOURCES & EVIDENCE:</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <a href="#" class="source-badge flex items-center bg-gray-100 text-gray-700 text-xs px-3 py-2 rounded-full">
+                                    <i class="fas fa-file-alt mr-1"></i> SEBI Annual Report 2023-24
+                                </a>
+                                <a href="#" class="source-badge flex items-center bg-gray-100 text-gray-700 text-xs px-3 py-2 rounded-full">
+                                    <i class="fas fa-university mr-1"></i> NSE Investor Survey 2025
+                                </a>
+                                <a href="#" class="source-badge flex items-center bg-gray-100 text-gray-700 text-xs px-3 py-2 rounded-full">
+                                    <i class="fas fa-chart-line mr-1"></i> AMFI Data on Small SIPs
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Expert Comment -->
+                        <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                            <div class="flex items-start">
+                                <div class="mr-3 mt-1">
+                                    <i class="fas fa-quote-left text-blue-400 text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600 text-sm italic mb-2">
+                                        "The democratization of stock market investing in India is one of the most significant financial developments in recent years. Today's technology and new-age brokers have removed the barrier to entry, making it accessible for almost everyone."
+                                    </p>
+                                    <p class="text-sm font-medium text-gray-700">— Nithin Kamath, Founder & CEO, Zerodha</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center text-sm text-gray-500">
+                                <span class="mr-4"><i class="far fa-calendar-alt mr-1"></i> April 2, 2025</span>
+                                <span class="mr-4"><i class="far fa-eye mr-1"></i> 3,245 views</span>
+                                <span><i class="fas fa-bolt mr-1 text-purple-500"></i> +5 XP</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button class="social-share-btn text-gray-400 hover:text-blue-600">
+                                    <i class="fab fa-twitter text-lg"></i>
+                                </button>
+                                <button class="social-share-btn text-gray-400 hover:text-blue-600">
+                                    <i class="fab fa-whatsapp text-lg"></i>
+                                </button>
+                                <button class="social-share-btn text-gray-400 hover:text-blue-600">
+                                    <i class="fab fa-linkedin text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Regular Myth/Fact Card -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden myth-card">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center">
+                                <span class="myth-label text-xs font-bold px-3 py-1 rounded-full mr-3">MYTH</span>
+                                <h2 class="text-xl font-bold text-gray-800">"Credit cards always lead to debt problems"</h2>
+                            </div>
+                            <div class="flex items-center space-x-3 text-gray-400">
+                                <button class="bookmark-btn">
+                                    <i class="far fa-bookmark text-lg"></i>
+                                </button>
+                                <button class="bookmark-btn">
+                                    <i class="far fa-share-square text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-100 text-blue-600 text-xs font-medium px-2 py-1 rounded">Banking</span>
+                            <span class="bg-green-100 text-green-600 text-xs font-medium px-2 py-1 rounded">Personal Finance</span>
+                        </div>
+                        
+                        <!-- The Myth -->
+                        <div class="mb-6">
+                            <h3 class="text-sm font-semibold text-gray-500 mb-2">THE CLAIM:</h3>
+                            <p class="text-gray-600 italic">
+                                "Credit cards are debt traps designed to make you spend more than you can afford. They always lead to financial problems and high-interest debt."
+                            </p>
+                        </div>
+                        
+                        <!-- The Fact -->
+                        <div class="mb-6">
+                            <h3 class="text-sm font-semibold text-green-600 mb-2">THE FACT:</h3>
+                            <p class="text-gray-600 mb-4">
+                                When used responsibly, credit cards can be valuable financial tools that offer several benefits. The key is to pay the full statement balance by the due date to avoid <span class="tooltip">interest charges
+                                    <span class="tooltiptext">
+                                        <strong>Credit Card Interest Charges</strong><br>
+                                        Fees charged on unpaid credit card balances, typically calculated as a percentage of the outstanding amount and added to your balance each month.<br><br>
+                                        <strong>Example:</strong> If your credit card has a 36% annual interest rate and you carry a balance of ₹10,000, you'll pay approximately ₹300 in interest each month.
+                                    </span>
+                                </span>. Benefits include:
+                            </p>
+                            <ul class="list-disc pl-5 mb-4 space-y-2 text-gray-600">
+                                <li>Building a positive <span class="tooltip">credit history
+                                    <span class="tooltiptext">
+                                        <strong>Credit History</strong><br>
+                                        A record of how you've managed credit accounts over time, including payment history, credit utilization, and account longevity.<br><br>
+                                        <strong>Example:</strong> Making on-time credit card payments that are reported to credit bureaus like CIBIL, building a positive track record that can help secure future loans.
+                                    </span>
+                                </span> and improving your <span class="tooltip">credit score
+                                    <span class="tooltiptext">
+                                        <strong>Credit Score</strong><br>
+                                        A numerical representation of your creditworthiness based on your credit history, typically ranging from 300 to 900 in India.<br><br>
+                                        <strong>Example:</strong> A CIBIL score of 750+ is generally considered good and may help you secure loans at better interest rates.
+                                    </span>
+                                </span></li>
+                                <li>Reward points, cashback, and discounts on purchases</li>
+                                <li>Additional protections like purchase protection, extended warranties, and travel insurance</li>
+                                <li>Improved expense tracking through monthly statements</li>
+                                <li>Float period of up to 45-50 days of interest-free credit</li>
+                            </ul>
+                            <p class="text-gray-600">
+                                According to RBI data, about 35% of credit card users in India pay their bills in full every month, demonstrating that responsible usage is possible and common.
+                            </p>
+                        </div>
+                        
+                        <!-- Sources & Evidence -->
+                        <div class="mb-6">
+                            <h3 class="text-sm font-semibold text-gray-700 mb-3">SOURCES & EVIDENCE:</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <a href="#" class="source-badge flex items-center bg-gray-100 text-gray-700 text-xs px-3 py-2 rounded-full">
+                                    <i class="fas fa-university mr-1"></i> RBI Credit Card Statistics 2024
+                                </a>
+                                <a href="#" class="source-badge flex items-center bg-gray-100 text-gray-700 text-xs px-3 py-2 rounded-full">
+                                    <i class="fas fa-chart-line mr-1"></i> TransUnion CIBIL Report
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center text-sm text-gray-500">
+                                <span class="mr-4"><i class="far fa-calendar-alt mr-1"></i> March 28, 2025</span>
+                                <span class="mr-4"><i class="far fa-eye mr-1"></i> 2,178 views</span>
+                                <span><i class="fas fa-bolt mr-1 text-purple-500"></i> +5 XP</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button class="social-share-btn text-gray-400 hover:text-blue-600">
+                                    <i class="fab fa-twitter text-lg"></i>
+                                </button>
+                                <button class="social-share-btn text-gray-400 hover:text-blue-600">
+                                    <i class="fab fa-whatsapp text-lg"></i>
+                                </button>
+                                <button class="social-share-btn text-gray-400 hover:text-blue-600">
+                                    <i class="fab fa-linkedin text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Regular Myth/Fact Card -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden myth-card">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center">
+                                <span class="fact-label text-xs font-bold px-3 py-1 rounded-full mr-3">FACT CHECK</span>
+                                <h2 class="text-xl font-bold text-gray-800">"Bitcoin will always increase in value over time"</h2>
+                            </div>
+                            <div class="flex items-center space-x-3 text-gray-400">
+                                <button class="bookmark-btn">
+                                    <i class="far fa-bookmark text-lg"></i>
+                                </button>
+                                <button class="bookmark-btn">
+                                    <i class="far fa-share-square text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-indigo-100 text-indigo-600 text-xs font-medium px-2 py-1 rounded">Cryptocurrency</span>
+                            <span class="bg-purple-100 text-purple-600 text-xs font-medium px-2 py-1 rounded">Investing</span>
+                            <span class="bg-red-100 text-red-600 text-xs font-medium px-2 py-1 rounded">Trending</span>
+                        </div>
+                        
+                        <!-- The Myth -->
+                        <div class="mb-6">
+                            <h3 class="text-sm font-semibold text-gray-500 mb-2">THE CLAIM:</h3>
+                            <p class="text-gray-600 italic">
+                                "Bitcoin is designed to always increase in value over time due to its limited supply of 21 million coins. This scarcity guarantees that it will be worth much more in the future."
+                            </p>
+                        </div>
+                        
+                        <!-- The Fact -->
+                        <div class="mb-6">
+                            <h3 class="text-sm font-semibold text-green-600 mb-2">THE FACT:</h3>
+                            <p class="text-gray-600 mb-4">
+                                While Bitcoin's limited supply of 21 million coins does create <span class="tooltip">scarcity
+                                    <span class="tooltiptext">
+                                        <strong>Scarcity</strong><br>
+                                        The limited availability of a resource or asset, which can potentially increase its value when demand exceeds supply.<br><br>
+                                        <strong>Example:</strong> Bitcoin's maximum supply is capped at 21 million coins, creating built-in scarcity unlike traditional currencies that can be printed indefinitely.
+                                    </span>
+                                </span>, this alone does not guarantee increasing value. Bitcoin's price is determined by multiple factors:
+                            </p>
+                            <ul class="list-disc pl-5 mb-4 space-y-2 text-gray-600">
+                                <li>Market demand and adoption rates</li>
+                                <li>Regulatory developments across different countries</li>
+                                <li>Technological advancements and competition from other cryptocurrencies</li>
+                                <li>Macroeconomic factors and investor sentiment</li>
+                            </ul>
+                            <p class="text-gray-600 mb-4">
+                                Bitcoin has experienced significant <span class="tooltip">volatility
+                                    <span class="tooltiptext">
+                                        <strong>Volatility</strong><br>
+                                        The degree of variation in trading prices over time, indicating the risk associated with an asset. Higher volatility means more dramatic price swings.<br><br>
+                                        <strong>Example:</strong> Bitcoin's price dropping from nearly ₹50 lakhs to under ₹20 lakhs within a few months in 2021-2022, showing extreme price volatility.
+                                    </span>
+                                </span> throughout its history. For example, after reaching nearly $69,000 in November 2021, Bitcoin's value dropped below $17,000 in 2022 – a decline of over 75%. While it has recovered since then, such patterns demonstrate that Bitcoin can experience prolonged periods of decreasing value.
+                            </p>
+                            <p class="text-gray-600">
+                                Historic performance is not indicative of future results, and all investments carry risk. Cryptocurrency investments are particularly speculative and can experience significant losses as well as gains.
+                            </p>
+                        </div>
+                        
+                        <!-- Sources & Evidence -->
+                        <div class="mb-6">
+                            <h3 class="text-sm font-semibold text-gray-700 mb-3">SOURCES & EVIDENCE:</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <a href="#" class="source-badge flex items-center bg-gray-100 text-gray-700 text-xs px-3 py-2 rounded-full">
+                                    <i class="fas fa-chart-line mr-1"></i> CoinMarketCap Historical Data
+                                </a>
+                                <a href="#" class="source-badge flex items-center bg-gray-100 text-gray-700 text-xs px-3 py-2 rounded-full">
+                                    <i class="fas fa-file-alt mr-1"></i> RBI Circular on Cryptocurrencies
+                                </a>
+                                <a href="#" class="source-badge flex items-center bg-gray-100 text-gray-700 text-xs px-3 py-2 rounded-full">
+                                    <i class="fas fa-chart-line mr-1"></i> TransUnion CIBIL Report
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center text-sm text-gray-500">
+                                <span class="mr-4"><i class="far fa-calendar-alt mr-1"></i> March 31, 2025</span>
+                                <span class="mr-4"><i class="far fa-eye mr-1"></i> 2,128 views</span>
+                                <span><i class="fas fa-bolt mr-1 text-purple-500"></i> +10 XP</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button class="social-share-btn text-gray-400 hover:text-blue-600">
+                                    <i class="fab fa-twitter text-lg"></i>
+                                </button>
+                                <button class="social-share-btn text-gray-400 hover:text-blue-600">
+                                    <i class="fab fa-whatsapp text-lg"></i>
+                                </button>
+                                <button class="social-share-btn text-gray-400 hover:text-blue-600">
+                                    <i class="fab fa-linkedin text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+ <!-- Footer for Logged-In Users -->
+ <footer class="bg-gray-800 text-gray-300 pt-8 pb-6 mt-8">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <!-- Quick Links -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">Quick Links</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-tachometer-alt mr-2 text-gray-400"></i> My Dashboard</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-graduation-cap mr-2 text-gray-400"></i> My Learning Path</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-trophy mr-2 text-gray-400"></i> My Achievements</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-bookmark mr-2 text-gray-400"></i> Saved Content</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-history mr-2 text-gray-400"></i> Learning History</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors flex items-center"><i class="fas fa-cog mr-2 text-gray-400"></i> Account Settings</a></li>
+                </ul>
+            </div>
+            
+            <!-- Platform Features -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">Explore Features</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white transition-colors">Daily Feed</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Case Breakdowns</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Myths & Facts</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Community Q&A</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Financial Dictionary</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Expert Consultations</a></li>
+                </ul>
+            </div>
+            
+            <!-- Learning Resources -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">Learning Resources</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white transition-colors">Financial Calculators</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Market Data</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Webinars & Events</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Knowledge Base</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Download Mobile App</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                </ul>
+            </div>
+            
+            <!-- User Support -->
+            <div>
+                <h3 class="text-lg font-semibold text-white mb-4">User Support</h3>
+                <p class="text-sm mb-4">Need help with your financial learning journey? Our support team is here for you.</p>
+                <div class="flex items-center mb-4">
+                    <a href="#" class="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-lg transition-colors flex items-center">
+                        <i class="far fa-comment-dots mr-2"></i> Contact Support
+                    </a>
+                </div>
+                <p class="text-sm mb-2">Working hours: 9AM-7PM, Mon-Sat</p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- User Status Info & Copyright -->
+        <div class="border-t border-gray-700 pt-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center text-sm">
+                        <span><i class="fas fa-circle text-green-500 mr-2 text-xs"></i> Logged in as: Swati</span>
+                        <span class="mx-3">•</span>
+                        <span>Level 6 Financial Explorer</span>
+                        <span class="mx-3">•</span>
+                        <span>Last login: Today at 10:23 AM</span>
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row items-center">
+                    <a href="#" class="text-sm hover:text-white transition-colors mr-4">Privacy Policy</a>
+                    <a href="#" class="text-sm hover:text-white transition-colors mr-4">Terms of Service</a>
+                    <a href="#" class="text-sm hover:text-white transition-colors">Logout</a>
+                </div>
+            </div>
+            <div class="text-center mt-6">
+                <p class="text-sm">© 2025 The Finance Shelf Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer></html>

@@ -1,0 +1,1176 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Finance Shelf Hub - Simplifying Finance for Every Indian</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <style>
+        .streak-counter {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            border-radius: 20px;
+            padding: 10px 20px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .xp-counter {
+            background: linear-gradient(45deg, #4158D0, #C850C0);
+            border-radius: 20px;
+            padding: 10px 20px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #3B82F6, #10B981);
+        }
+
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: #3B82F6;
+        }
+
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .badge {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #F3F4F6;
+            margin: 0 5px;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .badge.earned {
+            background: linear-gradient(45deg, #00B4DB, #0083B0);
+            color: white;
+        }
+
+        .trending-term {
+            transition: all 0.2s ease;
+        }
+        
+        .trending-term:hover {
+            transform: translateX(5px);
+            background-color: #EFF6FF;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted #2563EB;
+            cursor: pointer;
+            color: #2563EB;
+            font-weight: 500;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 280px;
+            background-color: #fff;
+            color: #1F2937;
+            text-align: left;
+            border-radius: 6px;
+            padding: 12px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -140px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid #E5E7EB;
+            font-weight: normal;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .animate-bounce-slow {
+            animation: bounce 3s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(-5%);
+                animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+            }
+            50% {
+                transform: translateY(0);
+                animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="text-2xl font-bold text-blue-600">
+                     <img src="logo.png">
+                </div>
+            </div>
+            <nav class="hidden md:flex space-x-8 text-gray-700">
+                <a href="#" class="hover:text-blue-600 font-medium text-blue-600">Home</a>
+                <a href="dailyfeed.html" class="hover:text-blue-600 font-medium">Articles</a>
+                <a href="cases.html" class="hover:text-blue-600 font-medium">Case Breakdowns</a>
+                <a href="myths.html" class="hover:text-blue-600 font-medium">Myths &amp; Facts</a>
+                <a href="community.html" class="hover:text-blue-600 font-medium">Community</a>
+                <a href="dictionary.html" class="hover:text-blue-600 font-medium">Dictionary</a>
+                <a href="experts.html" class="hover:text-blue-600 font-medium">Experts</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <a href="register.html" class="streak-counter text-sm">
+                    <i class="fas fa-fire mr-1"></i>Register
+                  </a>
+                  <a href="login.html" class="xp-counter text-sm">
+                    <i class="fas fa-bolt mr-1"></i>Login
+                  </a>
+                  
+                <div class="hidden md:flex items-center">
+                    
+                </div>
+                <button class="block md:hidden text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white">
+        <div class="container mx-auto px-4 py-16 md:py-24">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">
+                        Simplifying Finance For <br>Every Indian
+                    </h1>
+                    <p class="text-lg mb-8 text-blue-50">
+                        Learn financial concepts, get expert advice, and build your financial literacy through interactive tools and practical knowledge.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#get-started" class="px-6 py-3 bg-white text-blue-600 font-bold rounded-full shadow-lg hover:bg-blue-50 transition-colors">
+                            Get Started
+                        </a>
+                        <a href="#features" class="px-6 py-3 bg-transparent border-2 border-white text-white font-bold rounded-full hover:bg-white hover:text-blue-600 transition-colors">
+                            Explore Features
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <img src="2.png" alt="Financial Education" class="rounded-lg shadow-2xl animate-bounce-slow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Stats -->
+    <section class="bg-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <p class="text-3xl font-bold text-blue-600">5.2M+</p>
+                    <p class="text-gray-600">Active Users</p>
+                </div>
+                <div>
+                    <p class="text-3xl font-bold text-blue-600">12K+</p>
+                    <p class="text-gray-600">Financial Terms</p>
+                </div>
+                <div>
+                    <p class="text-3xl font-bold text-blue-600">250+</p>
+                    <p class="text-gray-600">Expert Advisors</p>
+                </div>
+                <div>
+                    <p class="text-3xl font-bold text-blue-600">98%</p>
+                    <p class="text-gray-600">Satisfaction Rate</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Your Learning Journey -->
+        <section class="mb-12">
+            <div class="flex justify-between items-center mb-6">
+                
+                
+            </div>
+
+            
+
+            
+        </section>
+
+        <!-- Market Snapshot -->
+        <section class="mb-12" id="market-snapshot">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-1">Market Snapshot</h2>
+                    <p class="text-gray-600">Latest financial market information</p>
+                </div>
+                <span class="text-xs text-gray-500">Last updated: 10 Apr, 2:30 PM</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Stock Market Card -->
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Stock Market</h3>
+                        <a href="#" class="text-blue-600 text-sm hover:underline">More <i class="fas fa-chevron-right text-xs ml-1"></i></a>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="bg-gray-50 p-3 rounded-md">
+                            <p class="text-sm text-gray-500">Nifty 50</p>
+                            <p class="text-lg font-bold">19,783.45</p>
+                            <p class="text-sm text-green-600">+128.35 (0.65%)</p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-md">
+                            <p class="text-sm text-gray-500">Sensex</p>
+                            <p class="text-lg font-bold">64,982.81</p>
+                            <p class="text-sm text-green-600">+385.65 (0.60%)</p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-500 mb-2">Bank Nifty</p>
+                        <p class="text-lg font-bold">44,621.85 <span class="text-sm text-green-600">+258.20 (0.58%)</span></p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-700 mb-2">Top Gainers &amp; Losers</p>
+                        <div class="grid grid-cols-2 gap-2 text-sm">
+                            <div class="flex justify-between items-center">
+                                <span class="truncate">Adani Ports</span>
+                                <span class="text-green-600">+3.84%</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="truncate">Wipro</span>
+                                <span class="text-red-600">-2.36%</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="truncate">Tata Motors</span>
+                                <span class="text-green-600">+3.10%</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="truncate">TCS</span>
+                                <span class="text-red-600">-1.85%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Crypto & Currency Card -->
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">Cryptocurrency</h3>
+                            <a href="#" class="text-blue-600 text-sm hover:underline">More <i class="fas fa-chevron-right text-xs ml-1"></i></a>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center mr-2">
+                                        <i class="fab fa-bitcoin text-orange-500"></i>
+                                    </div>
+                                    <span>Bitcoin</span>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-semibold">₹55,82,490</p>
+                                    <p class="text-xs text-green-600">+1.24%</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">
+                                        <i class="fab fa-ethereum text-blue-500"></i>
+                                    </div>
+                                    <span>Ethereum</span>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-semibold">₹2,61,875</p>
+                                    <p class="text-xs text-green-600">+0.89%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Currency Exchange</h3>
+                        <div class="grid grid-cols-2 gap-3 text-sm">
+                            <div class="bg-gray-50 p-3 rounded-md">
+                                <p class="text-gray-500">USD/INR</p>
+                                <p class="text-lg font-bold">82.35</p>
+                                <p class="text-xs text-green-600">-0.15%</p>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-md">
+                                <p class="text-gray-500">EUR/INR</p>
+                                <p class="text-lg font-bold">89.76</p>
+                                <p class="text-xs text-red-600">+0.22%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Financial Indicators -->
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Key Indicators</h3>
+                        <a href="#" class="text-blue-600 text-sm hover:underline">More <i class="fas fa-chevron-right text-xs ml-1"></i></a>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <p class="text-sm font-medium text-gray-700">Gold (10g)</p>
+                                <p class="text-sm font-semibold">₹71,250 <span class="text-green-600">+0.85%</span></p>
+                            </div>
+                            <div class="w-full h-2 bg-gray-100 rounded-full">
+                                <div class="bg-yellow-500 h-full rounded-full" style="width: 60%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>52-week low: ₹58,900</span>
+                                <span>52-week high: ₹72,800</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <p class="text-sm font-medium text-gray-700">Crude Oil (barrel)</p>
+                                <p class="text-sm font-semibold">₹6,585 <span class="text-red-600">-1.15%</span></p>
+                            </div>
+                            <div class="w-full h-2 bg-gray-100 rounded-full">
+                                <div class="bg-gray-500 h-full rounded-full" style="width: 45%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>52-week low: ₹5,850</span>
+                                <span>52-week high: ₹8,120</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <p class="text-sm font-medium text-gray-700">10Y G-Sec Yield</p>
+                                <p class="text-sm font-semibold">7.15% <span class="text-red-600">+0.03%</span></p>
+                            </div>
+                            <div class="w-full h-2 bg-gray-100 rounded-full">
+                                <div class="bg-blue-500 h-full rounded-full" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <p class="text-sm font-medium text-gray-700">RBI Repo Rate</p>
+                                <p class="text-sm font-semibold">6.50% <span class="text-gray-500">Unchanged</span></p>
+                            </div>
+                            <div class="w-full h-2 bg-gray-100 rounded-full">
+                                <div class="bg-purple-500 h-full rounded-full" style="width: 65%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Sections -->
+        <section class="mb-12" id="features">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-1">Explore The Finance Shelf Hub</h2>
+                    <p class="text-gray-600">Discover everything our platform has to offer</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Daily Feed -->
+                <div class="feature-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <img src="/api/placeholder/400/200" alt="Daily Feed" class="w-full h-40 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Daily Feed</h3>
+                        <p class="text-gray-600 mb-4">
+                            Stay updated with the latest financial news and trends, simplified and explained in plain language.
+                        </p>
+                        <div class="mb-4">
+                            <div class="flex items-center mb-2">
+                                <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-newspaper text-blue-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Latest articles on trending financial topics</p>
+                            </div>
+                            <div class="flex items-center mb-2">
+                                <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-search text-blue-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Jargon-free explanations with examples</p>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-bolt text-blue-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Earn XP for every article you read</p>
+                            </div>
+                        </div>
+                        <a href="#" class="text-blue-600 font-medium hover:underline">Explore Daily Feed <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Case Breakdowns -->
+                <div class="feature-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <img src="/api/placeholder/400/200" alt="Case Breakdowns" class="w-full h-40 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Case Breakdowns</h3>
+                        <p class="text-gray-600 mb-4">
+                            Understand complex financial cases and scandals through detailed, easy-to-follow analysis and lessons.
+                        </p>
+                        <div class="mb-4">
+                            <div class="flex items-center mb-2">
+                                <div class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-briefcase text-purple-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Learn from historical financial cases</p>
+                            </div>
+                            <div class="flex items-center mb-2">
+                                <div class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-lightbulb text-purple-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Key insights explained step-by-step</p>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-trophy text-purple-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Complete case studies to earn badges</p>
+                            </div>
+                        </div>
+                        <a href="#" class="text-purple-600 font-medium hover:underline">Explore Case Breakdowns <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Myths & Facts -->
+                <div class="feature-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <img src="/api/placeholder/400/200" alt="Myths & Facts" class="w-full h-40 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Myths & Facts</h3>
+                        <p class="text-gray-600 mb-4">
+                            Separate financial myths from facts with evidence-based explanations and expert insights.
+                        </p>
+                        <div class="mb-4">
+                            <div class="flex items-center mb-2">
+                                <div class="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-exclamation-circle text-red-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Debunk common financial misconceptions</p>
+                            </div>
+                            <div class="flex items-center mb-2">
+                                <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-check-circle text-green-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Evidence-backed financial truths</p>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-user-edit text-yellow-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Submit myths for expert verification</p>
+                            </div>
+                        </div>
+                        <a href="#" class="text-green-600 font-medium hover:underline">Explore Myths & Facts <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Community Q&A -->
+                <div class="feature-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <img src="/api/placeholder/400/200" alt="Community Q&A" class="w-full h-40 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Community Q&A</h3>
+                        <p class="text-gray-600 mb-4">
+                            Join our growing community to ask questions, share knowledge, and learn from peers and experts.
+                        </p>
+                        <div class="mb-4">
+                            <div class="flex items-center mb-2">
+                                <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-question-circle text-blue-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Get your financial questions answered</p>
+                            </div>
+                            <div class="flex items-center mb-2">
+                                <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-users text-blue-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Connect with peers and financial experts</p>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-thumbs-up text-blue-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Help others with valuable answers</p>
+                            </div>
+                        </div>
+                        <a href="#" class="text-blue-600 font-medium hover:underline">Join Community <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Financial Dictionary -->
+                <div class="feature-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <img src="/api/placeholder/400/200" alt="Financial Dictionary" class="w-full h-40 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Financial Dictionary</h3>
+                        <p class="text-gray-600 mb-4">
+                            Access a comprehensive library of financial terms explained in simple language with real-world examples.
+                        </p>
+                        <div class="mb-4">
+                            <div class="flex items-center mb-2">
+                                <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-book text-yellow-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">12,000+ financial terms and concepts</p>
+                            </div>
+                            <div class="flex items-center mb-2">
+                                <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-search text-yellow-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Easy search and category filters</p>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-graduation-cap text-yellow-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Track terms you've learned</p>
+                            </div>
+                        </div>
+                        <a href="#" class="text-yellow-600 font-medium hover:underline">Explore Dictionary <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+
+                <!-- Expert Consultations -->
+                <div class="feature-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <img src="/api/placeholder/400/200" alt="Expert Consultations" class="w-full h-40 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Expert Consultations</h3>
+                        <p class="text-gray-600 mb-4">
+                            Book personalized sessions with verified financial experts for guidance tailored to your needs.
+                        </p>
+                        <div class="mb-4">
+                            <div class="flex items-center mb-2">
+                                <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-user-tie text-green-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">250+ certified financial professionals</p>
+                            </div>
+                            <div class="flex items-center mb-2">
+                                <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-calendar-check text-green-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Easy booking system with flexible times</p>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-comment-dots text-green-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Virtual consultations from anywhere</p>
+                            </div>
+                        </div>
+                        <a href="#" class="text-green-600 font-medium hover:underline">Find an Expert <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Experts -->
+        <section class="mb-12">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-1">Featured Experts</h2>
+                    <p class="text-gray-600">Get personalized financial guidance from certified professionals</p>
+                </div>
+                <a href="#" class="text-blue-600 hover:underline">View All Experts <i class="fas fa-arrow-right ml-1"></i></a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Expert Card 1 -->
+                <div class="expert-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-start mb-4">
+                            <img src="https://avatar.iran.liara.run/public/37" alt="Expert Photo" class="w-16 h-16 rounded-full mr-4">
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-800">Matthew B, CA</h3>
+                                <p class="text-gray-600">Tax & Investment Expert</p>
+                                <div class="mt-1 rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span class="text-gray-600 text-sm ml-1">4.5</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">Tax Planning</span>
+                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">Investment</span>
+                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">Retirement</span>
+                        </div>
+                        <div class="border-t border-gray-100 pt-4">
+                            <div class="mb-3">
+                                <span class="text-sm text-gray-600">Starting at</span>
+                                <span class="text-lg font-bold text-blue-600 ml-1">₹999</span>
+                                <span class="text-sm text-gray-500">/session</span>
+                            </div>
+                            <button class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                                Book Consultation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expert Card 2 -->
+                <div class="expert-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-start mb-4">
+                            <img src="https://avatar.iran.liara.run/public/97" alt="Expert Photo" class="w-16 h-16 rounded-full mr-4">
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-800">Priya Mehta, CFP</h3>
+                                <p class="text-gray-600">Certified Financial Planner</p>
+                                <div class="mt-1 rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span class="text-gray-600 text-sm ml-1">5.0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">Financial Planning</span>
+                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">Mutual Funds</span>
+                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">Goal-based</span>
+                        </div>
+                        <div class="border-t border-gray-100 pt-4">
+                            <div class="mb-3">
+                                <span class="text-sm text-gray-600">Starting at</span>
+                                <span class="text-lg font-bold text-blue-600 ml-1">₹1,499</span>
+                                <span class="text-sm text-gray-500">/session</span>
+                            </div>
+                            <button class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                                Book Consultation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expert Card 3 -->
+                <div class="expert-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-start mb-4">
+                            <img src="https://avatar.iran.liara.run/public/33" alt="Expert Photo" class="w-16 h-16 rounded-full mr-4">
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-800">Mahesh T</h3>
+                                <p class="text-gray-600">Stock Market Expert</p>
+                                <div class="mt-1 rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <span class="text-gray-600 text-sm ml-1">4.0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">Stock Market</span>
+                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">Portfolio Analysis</span>
+                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">Equity</span>
+                        </div>
+                        <div class="border-t border-gray-100 pt-4">
+                            <div class="mb-3">
+                                <span class="text-sm text-gray-600">Starting at</span>
+                                <span class="text-lg font-bold text-blue-600 ml-1">₹1,999</span>
+                                <span class="text-sm text-gray-500">/session</span>
+                            </div>
+                            <button class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                                Book Consultation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Financial Term of the Day -->
+        <section class="mb-12">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-1">Financial Term of the Day</h2>
+                    <p class="text-gray-600">Expand your financial vocabulary one term at a time</p>
+                </div>
+                <a href="#" class="text-blue-600 hover:underline">View Dictionary <i class="fas fa-arrow-right ml-1"></i></a>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-800">SIP (Systematic Investment Plan)</h3>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="bg-purple-100 text-purple-600 text-xs font-medium px-2 py-1 rounded">Investing</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3 text-gray-400">
+                            <button class="bookmark-btn">
+                                <i class="far fa-bookmark text-lg"></i>
+                            </button>
+                            <button class="bookmark-btn">
+                                <i class="far fa-share-square text-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">
+                        A <span class="tooltip">Systematic Investment Plan (SIP)
+                            <span class="tooltiptext">
+                                <strong>Systematic Investment Plan (SIP)</strong><br>
+                                An investment method where investors make regular, equal payments into a mutual fund, rather than investing a large sum at once.<br><br>
+                                <strong>Key Benefits:</strong> Rupee-cost averaging, disciplined investing, power of compounding.
+                            </span>
+                        </span> is a method of investing a fixed amount regularly in mutual funds, typically monthly or quarterly. This enables investors to benefit from <span class="tooltip">rupee-cost averaging
+                            <span class="tooltiptext">
+                                <strong>Rupee-Cost Averaging</strong><br>
+                                A strategy where you invest a fixed amount at regular intervals, regardless of share price - buying more units when prices are low and fewer when prices are high.<br><br>
+                                <strong>Example:</strong> Investing ₹5,000 monthly will buy more mutual fund units when markets are down and fewer when markets are up.
+                            </span>
+                        </span> and the <span class="tooltip">power of compounding
+                            <span class="tooltiptext">
+                                <strong>Power of Compounding</strong><br>
+                                The process where the return on your investment generates additional earnings over time, which themselves generate returns.<br><br>
+                                <strong>Example:</strong> An investment of ₹1,000 monthly for 20 years at 12% returns could grow to approximately ₹95 lakhs.
+                            </span>
+                        </span> over time.
+                    </p>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg mb-6">
+                        <h4 class="font-medium text-blue-800 mb-2">Example in Action:</h4>
+                        <p class="text-blue-700">
+                            Priya starts a ₹5,000 monthly SIP in an equity mutual fund with a historical return of 12% p.a. After 10 years, her total investment of ₹6 lakhs (₹5,000 × 12 months × 10 years) grows to approximately ₹11.6 lakhs, with an additional ₹5.6 lakhs generated through compounding.
+                        </p>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <a href="#" class="bg-blue-100 text-blue-600 px-3 py-1 rounded-lg text-sm mr-2 hover:bg-blue-200">Mutual Fund</a>
+                            <a href="#" class="bg-blue-100 text-blue-600 px-3 py-1 rounded-lg text-sm mr-2 hover:bg-blue-200">Compounding</a>
+                            <a href="#" class="bg-blue-100 text-blue-600 px-3 py-1 rounded-lg text-sm hover:bg-blue-200">Rupee-Cost Averaging</a>
+                        </div>
+                        <a href="#" class="text-blue-600 text-sm font-medium hover:underline">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="mb-12">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-1">What Our Users Say</h2>
+                    <p class="text-gray-600">Join thousands of satisfied users on their financial learning journey</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <img src="https://avatar.iran.liara.run/public/62" alt="User Photo" class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-800">Vaishali</h3>
+                                <p class="text-sm text-gray-600">Software Engineer, Bangalore</p>
+                            </div>
+                        </div>
+                        <div class="mb-4 rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 italic mb-4">
+                            "The Finance Shelf Hub transformed how I understand investments. The jargon-free explanations and case studies helped me gain confidence in managing my finances. I've already recommended it to all my colleagues!"
+                        </p>
+                        <p class="text-sm text-gray-500">User since April 2024</p>
+                    </div>
+                </div>
+                <div class="testimonial-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <img src="https://avatar.iran.liara.run/public/100" alt="User Photo" class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-800">Neha Patel</h3>
+                                <p class="text-sm text-gray-600">Teacher, Mumbai</p>
+                            </div>
+                        </div>
+                        <div class="mb-4 rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="text-gray-600 italic mb-4">
+                            "As someone who always found finance intimidating, The Finance Shelf Hub was exactly what I needed. The case studies and myths sections are my favorites. I finally understand terms like SIP and mutual funds enough to start investing!"
+                        </p>
+                        <p class="text-sm text-gray-500">User since January 2024</p>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <img src="https://avatar.iran.liara.run/public/12" alt="User Photo" class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-800">Vikram Singh</h3>
+                                <p class="text-sm text-gray-600">Small Business Owner, Delhi</p>
+                            </div>
+                        </div>
+                        <div class="mb-4 rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="text-gray-600 italic mb-4">
+                            "The expert consultation feature is invaluable. I booked a session with a tax expert who helped me optimize my small business finances. The ROI on that single consultation has been incredible!"
+                        </p>
+                        <p class="text-sm text-gray-500">User since March 2024</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Download Mobile App Section -->
+        <section class="mb-12 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl overflow-hidden">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="p-8 md:p-12 md:w-1/2">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Take The Finance Shelf Hub With You</h2>
+                    <p class="text-blue-100 mb-6">
+                        Download our mobile app to access financial knowledge, track your progress, and learn on the go – anywhere, anytime.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#" class="bg-white text-blue-800 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors inline-flex items-center">
+                            <i class="fab fa-google-play text-xl mr-2"></i> Google Play
+                        </a>
+                        <a href="#" class="bg-white text-blue-800 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition-colors inline-flex items-center">
+                            <i class="fab fa-apple text-xl mr-2"></i> App Store
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 px-12 py-8 flex justify-center">
+                    <div class="app-screenshot relative">
+                        <img src="/api/placeholder/300/600" alt="The Finance Shelf Hub Mobile App" class="rounded-2xl">
+                        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/20 to-transparent"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Get Started Section -->
+        <section class="mb-12" id="get-started">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-1">Ready to Start Your Financial Journey?</h2>
+                    <p class="text-gray-600">Begin building your financial literacy today with these easy steps</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Step 1 -->
+                <div class="feature-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-6">
+                        <div class="h-14 w-14 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <span class="text-2xl font-bold text-blue-600">1</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">Create Your Account</h3>
+                        <p class="text-gray-600 mb-4 text-center">
+                            Sign up for free and set up your personalized financial learning profile.
+                        </p>
+                        <div class="space-y-3">
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-check text-green-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Quick registration process</p>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-check text-green-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Set your financial goals</p>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-check text-green-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Customize your learning path</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="feature-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-6">
+                        <div class="h-14 w-14 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <span class="text-2xl font-bold text-blue-600">2</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">Explore Content</h3>
+                        <p class="text-gray-600 mb-4 text-center">
+                            Discover our financial resources tailored to your interests and knowledge level.
+                        </p>
+                        <div class="space-y-3">
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-check text-green-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Read simplified daily articles</p>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-check text-green-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Study case breakdowns</p>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-check text-green-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Look up terms in the dictionary</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="feature-card bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-6">
+                        <div class="h-14 w-14 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <span class="text-2xl font-bold text-blue-600">3</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">Track & Engage</h3>
+                        <p class="text-gray-600 mb-4 text-center">
+                            Monitor your progress, earn rewards, and connect with the community.
+                        </p>
+                        <div class="space-y-3">
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-check text-green-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Earn badges and XP points</p>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-check text-green-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Take quizzes to test knowledge</p>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mr-2">
+                                    <i class="fas fa-check text-green-600 text-xs"></i>
+                                </div>
+                                <p class="text-sm text-gray-700">Ask questions in community</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Button -->
+            <div class="text-center mt-10">
+                <a href="#" class="px-8 py-4 bg-blue-600 text-white font-bold rounded-lg shadow-lg hover:bg-blue-700 transition-colors inline-block">
+                    Create Your Free Account <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+                <p class="text-gray-500 mt-3">Join 5.2 million+ Indians on the path to financial literacy</p>
+            </div>
+        </section>
+
+        <!-- Partners & Recognition -->
+        <section class="mb-16">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-1">Trusted & Recognized</h2>
+                <p class="text-gray-600">Our partners and recognitions in the financial industry</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-6 gap-6 items-center">
+                <div class="flex justify-center">
+                    <img src="/api/placeholder/120/60" alt="Partner Logo" class="h-12 opacity-60 hover:opacity-100 transition-opacity">
+                </div>
+                <div class="flex justify-center">
+                    <img src="/api/placeholder/120/60" alt="Partner Logo" class="h-12 opacity-60 hover:opacity-100 transition-opacity">
+                </div>
+                <div class="flex justify-center">
+                    <img src="/api/placeholder/120/60" alt="Partner Logo" class="h-12 opacity-60 hover:opacity-100 transition-opacity">
+                </div>
+                <div class="flex justify-center">
+                    <img src="/api/placeholder/120/60" alt="Partner Logo" class="h-12 opacity-60 hover:opacity-100 transition-opacity">
+                </div>
+                <div class="flex justify-center">
+                    <img src="/api/placeholder/120/60" alt="Partner Logo" class="h-12 opacity-60 hover:opacity-100 transition-opacity">
+                </div>
+                <div class="flex justify-center">
+                    <img src="/api/placeholder/120/60" alt="Partner Logo" class="h-12 opacity-60 hover:opacity-100 transition-opacity">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="text-2xl font-bold text-white mb-4">
+                        <span>The</span><span class="text-green-400">Finance</span> <span>Shelf</span>
+                    </div>
+                    <p class="mb-4">
+                        Simplifying finance for every Indian through interactive learning, expert guidance, and community support.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Features</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition-colors">Daily Feed</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Case Breakdowns</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Myths & Facts</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Community Q&A</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Financial Dictionary</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Expert Consultations</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Resources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Financial Calculators</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Webinars</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Market Data</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Press Kit</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm">© 2025 The Finance Shelf Hub. All rights reserved.</p>
+                <div class="mt-4 md:mt-0">
+                    <a href="#" class="text-sm hover:text-white transition-colors mr-4">Privacy Policy</a>
+                    <a href="#" class="text-sm hover:text-white transition-colors mr-4">Terms of Service</a>
+                    <a href="#" class="text-sm hover:text-white transition-colors">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple script to simulate dynamic content
+        document.addEventListener("DOMContentLoaded", function() {
+            // Simulate market data chart
+            if (document.getElementById('niftyChart')) {
+                const ctx = document.getElementById('niftyChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM'],
+                        datasets: [{
+                            label: 'Nifty 50',
+                            data: [19655, 19680, 19710, 19695, 19750, 19783],
+                            borderColor: '#3B82F6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                min: 19600,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value.toLocaleString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+
+                
